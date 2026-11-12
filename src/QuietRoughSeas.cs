@@ -12,11 +12,27 @@ namespace QuietRoughSeas
     public class QuietRoughSeasConfig
     {
         /// <summary>
-        /// With the Rivers mod: the river's push against a boat rowed upstream
-        /// is divided by this. 1 leaves Rivers as it is, higher makes rowing
-        /// upstream easier.
+        /// With the Rivers mod: false stops rivers pushing boats in any
+        /// direction, true leaves Rivers as it is. Swimmers are always pushed.
         /// </summary>
-        public double RiverUpstreamDivisor = 8;
+        public bool RiversPushBoats = false;
+
+        /// <summary>
+        /// Rough Seas stroke name ("paddling", "sculling", "rowing", "pole",
+        /// "seatedpole") to a multiplier on the power that stroke puts into
+        /// the water. Hunger is unchanged. Top speed grows with roughly the
+        /// cube root of the power, so 8 about doubles it. Left out or 1
+        /// leaves a stroke as Rough Seas has it.
+        /// </summary>
+        public Dictionary<string, double> StrokePowerMultiplier;
+
+        public static Dictionary<string, double> DefaultStrokePowerMultiplier()
+        {
+            Dictionary<string, double> defaults = new Dictionary<string, double>();
+            defaults["paddling"] = 8;
+            defaults["sculling"] = 8;
+            return defaults;
+        }
     }
 
     /// <summary>
@@ -33,11 +49,19 @@ namespace QuietRoughSeas
     ///    swing is skipped unless an axe is held, so a boat can still be
     ///    broken up on purpose but not by a stray click or in a fight.
     ///
-    /// 3. Rowing upstream (only if the Rivers mod is installed). Rivers pushes
-    ///    every rowed boat along the river's flow. The part of that push that
-    ///    works against the direction the boat is being rowed is divided by
-    ///    RiverUpstreamDivisor from ModConfig/quietroughseas.json (default 8).
-    ///    The push sideways and downstream is untouched, and so are swimmers.
+    /// 3. Rivers and boats (only if the Rivers mod is installed). Rivers pushes
+    ///    every rowed boat along the river's flow from its own Harmony postfix
+    ///    on the vanilla boat motion step. That postfix is skipped, so rivers
+    ///    do not move boats at all (RiversPushBoats in
+    ///    ModConfig/quietroughseas.json, default false). Swimmers are pushed
+    ///    by a different Rivers patch, which is left alone.
+    ///
+    /// 4. Paddling speed. Rough Seas gives a rower a fixed body power and each
+    ///    stroke a "gross efficiency", the share of it that reaches the blade;
+    ///    hull drag then settles the speed. The efficiency of the strokes named
+    ///    in StrokePowerMultiplier is multiplied in Rough Seas' loaded config,
+    ///    which makes those boats faster without costing more hunger. No
+    ///    Harmony patch is involved.
     ///
     /// The game compiles this file itself and does not hand source mods a
     /// reference to Harmony, so Harmony is driven through reflection.
@@ -50,8 +74,14 @@ namespace QuietRoughSeas
 
         const string ConfigFile = "quietroughseas.json";
 
-        /// <summary>How much weaker the river's push is against a boat rowed upstream. Read from the config file.</summary>
-        static double riverUpstreamDivisor = new QuietRoughSeasConfig().RiverUpstreamDivisor;
+        /// <summary>Whether the Rivers mod is left to push boats. Read from the config file.</summary>
+        static bool riversPushBoats = new QuietRoughSeasConfig().RiversPushBoats;
+
+        /// <summary>Stroke name to power multiplier. Read from the config file.</summary>
+        static Dictionary<string, double> strokePowerMultiplier = QuietRoughSeasConfig.DefaultStrokePowerMultiplier();
+
+        // Rough Seas stroke configs whose efficiency has already been multiplied, so none is done twice.
+        static readonly List<object> scaledStrokes = new List<object>();
         const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
         // Harmony patches are process-wide; in single player the client and
@@ -89,11 +119,11 @@ namespace QuietRoughSeas
 
                 LoadConfig(api);
 
-                if (api.ModLoader.GetMod(RiversModId) != null)
+                if (!riversPushBoats && api.ModLoader.GetMod(RiversModId) != null)
                 {
-                    int pushes = Apply(FindRiverBoatPush(ModTypes(api, RiversModId)), "BeforeRiverPush", "AfterRiverPush");
-                    if (pushes > 0) Mod.Logger.Notification("River current against a boat rowed upstream is divided by {0}.", riverUpstreamDivisor);
-                    else Mod.Logger.Warning("Found no Rivers boat push method to patch. Rowing upstream is unchanged; this mod needs an update.");
+                    int pushes = Apply(FindRiverBoatPush(ModTypes(api, RiversModId)), "SkipRiverBoatPush", null);
+                    if (pushes > 0) Mod.Logger.Notification("Rivers no longer push boats.");
+                    else Mod.Logger.Warning("Found no Rivers boat push method to patch. Rivers still push boats; this mod needs an update.");
                 }
             }
             catch (Exception e)
@@ -115,72 +145,100 @@ namespace QuietRoughSeas
                 Mod.Logger.Warning("Could not read {0}, using the defaults: {1}", ConfigFile, e.Message);
             }
 
-            if (config == null)
-            {
-                config = new QuietRoughSeasConfig();
-                try { api.StoreModConfig(config, ConfigFile); }
-                catch (Exception e) { Mod.Logger.Warning("Could not write {0}: {1}", ConfigFile, e.Message); }
-            }
+            if (config == null) config = new QuietRoughSeasConfig();
+            if (config.StrokePowerMultiplier == null) config.StrokePowerMultiplier = QuietRoughSeasConfig.DefaultStrokePowerMultiplier();
 
-            double divisor = config.RiverUpstreamDivisor;
-            if (double.IsNaN(divisor) || double.IsInfinity(divisor) || divisor <= 0)
-            {
-                double fallback = new QuietRoughSeasConfig().RiverUpstreamDivisor;
-                Mod.Logger.Warning("RiverUpstreamDivisor in {0} must be a number above 0, using {1}.", ConfigFile, fallback);
-                divisor = fallback;
-            }
-            riverUpstreamDivisor = divisor;
+            // Written back every time, so a file from an older version gains the newer settings.
+            try { api.StoreModConfig(config, ConfigFile); }
+            catch (Exception e) { Mod.Logger.Warning("Could not write {0}: {1}", ConfigFile, e.Message); }
+
+            strokePowerMultiplier = config.StrokePowerMultiplier;
+
+            riversPushBoats = config.RiversPushBoats;
         }
 
-        // ---- River push on boats (wrapped around the Rivers mod's own boat patch) ----
+        // ---- Stroke power (edits Rough Seas' loaded propulsion config) ----
 
-        // The method being wrapped is Rivers' own static Harmony postfix,
-        // Postfix(EntityBoat __instance). For a static method Harmony's
-        // "__instance" is null, so the boat has to be taken as the first
-        // argument, "__0".
-
-        // Remember the boat's motion before Rivers adds its push.
-        static void BeforeRiverPush(EntityBoat __0, out double[] __state)
+        // Rough Seas reads its propulsion config in AssetsLoaded, once on each
+        // side, so this runs on each side after that.
+        public override void AssetsFinalize(ICoreAPI api)
         {
-            __state = null;
-            EntityPos pos = __0 == null ? null : __0.Pos;
-            if (pos == null || pos.Motion == null) return;
-            __state = new double[] { pos.Motion.X, pos.Motion.Z };
+            try
+            {
+                ScaleStrokePower(api);
+            }
+            catch (Exception e)
+            {
+                Mod.Logger.Warning("Could not change Rough Seas stroke power: {0}", e);
+            }
         }
 
-        // Work out what Rivers added, and take back most of the part that
-        // works against the direction the boat is being rowed.
-        static void AfterRiverPush(EntityBoat __0, double[] __state)
+        void ScaleStrokePower(ICoreAPI api)
         {
-            if (__state == null || __0 == null || __0.ForwardSpeed == 0) return;
+            Mod target = api.ModLoader.GetMod(TargetModId);
+            if (target == null || strokePowerMultiplier == null || strokePowerMultiplier.Count == 0) return;
 
-            EntityPos pos = __0.Pos;
-            if (pos == null || pos.Motion == null) return;
-            double pushX = pos.Motion.X - __state[0];
-            double pushZ = pos.Motion.Z - __state[1];
-            if (pushX == 0 && pushZ == 0) return;
+            const BindingFlags any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            System.Collections.IDictionary strokes = null;
+            foreach (ModSystem system in target.Systems)
+            {
+                if (system.GetType().Name != "PropulsionModSystem") continue;
+                PropertyInfo configProperty = system.GetType().GetProperty("Config", any);
+                object config = configProperty == null ? null : configProperty.GetValue(system);
+                FieldInfo strokesField = config == null ? null : config.GetType().GetField("Strokes", any);
+                strokes = strokesField == null ? null : strokesField.GetValue(config) as System.Collections.IDictionary;
+            }
+            if (strokes == null)
+            {
+                Mod.Logger.Warning("Found no Rough Seas propulsion config. Boat speed is unchanged; this mod needs an update.");
+                return;
+            }
 
-            // Same direction vanilla rows the boat in: the view vector times -ForwardSpeed.
-            Vec3f view = pos.GetViewVector();
-            double sign = __0.ForwardSpeed > 0 ? -1 : 1;
-            double headX = view.X * sign;
-            double headZ = view.Z * sign;
-            double length = Math.Sqrt(headX * headX + headZ * headZ);
-            if (length < 1e-6) return;
-            headX /= length;
-            headZ /= length;
+            foreach (KeyValuePair<string, double> entry in strokePowerMultiplier)
+            {
+                double multiplier = entry.Value;
+                if (double.IsNaN(multiplier) || double.IsInfinity(multiplier) || multiplier <= 0)
+                {
+                    Mod.Logger.Warning("StrokePowerMultiplier for '{0}' in {1} must be a number above 0, ignoring it.", entry.Key, ConfigFile);
+                    continue;
+                }
+                if (!strokes.Contains(entry.Key))
+                {
+                    Mod.Logger.Warning("Rough Seas has no stroke called '{0}' ({1}), ignoring it.", entry.Key, ConfigFile);
+                    continue;
+                }
 
-            double along = pushX * headX + pushZ * headZ;
-            if (along >= 0) return; // the river is helping, or pushing sideways
+                object stroke = strokes[entry.Key];
+                FieldInfo efficiency = stroke == null ? null : stroke.GetType().GetField("GrossEfficiency", any);
+                if (efficiency == null || efficiency.FieldType != typeof(double))
+                {
+                    Mod.Logger.Warning("Rough Seas stroke '{0}' has no efficiency to change; this mod needs an update.", entry.Key);
+                    continue;
+                }
 
-            double takeBack = along * (1 - 1 / riverUpstreamDivisor);
-            pos.Motion.X -= takeBack * headX;
-            pos.Motion.Z -= takeBack * headZ;
+                lock (scaledStrokes)
+                {
+                    bool done = false;
+                    foreach (object seen in scaledStrokes)
+                    {
+                        if (ReferenceEquals(seen, stroke)) { done = true; break; }
+                    }
+                    if (done) continue;
+                    scaledStrokes.Add(stroke);
+                }
+
+                double before = (double)efficiency.GetValue(stroke);
+                efficiency.SetValue(stroke, before * multiplier);
+                Mod.Logger.Notification("Rough Seas '{0}' stroke power multiplied by {1} on the {2} (efficiency {3} to {4}).", entry.Key, multiplier, api.Side, before, before * multiplier);
+            }
         }
 
         // ---- Harmony prefixes (returning false skips the original method) ----
 
         static bool SkipLog() { return false; }
+
+        // On the Rivers mod's own Harmony postfix that pushes a rowed boat along the flow.
+        static bool SkipRiverBoatPush() { return false; }
 
         // "slot" is matched by name to the parameter of Rough Seas' Swing method.
         static bool AllowSwing(ItemSlot slot)
