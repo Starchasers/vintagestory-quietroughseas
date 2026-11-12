@@ -1,0 +1,15 @@
+{
+    "type": "code",
+    "modid": "quietroughseas",
+    "name": "Quiet Rough Seas",
+    "authors": ["hubert"],
+    "description": "Silences the debug log output of the Rough Seas mod. Warnings and errors are left alone.",
+    "version": "1.0.0",
+    "side": "Universal",
+    "requiredOnClient": false,
+    "requiredOnServer": false,
+    "dependencies": {
+        "game": "1.22.0",
+        "roughseas": "*"
+    }
+}
