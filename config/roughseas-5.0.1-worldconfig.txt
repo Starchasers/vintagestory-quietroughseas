@@ -1,0 +1,8 @@
+# Run as administrator in the existing world, then fully stop/restart world/server.
+# These are commands, NOT JSON to copy into ModConfig.
+/worldconfig realisticSwimming false
+/worldconfig swimmerBreakers false
+/worldconfig oceanCurrents true
+# All three are editable after world creation in Rough Seas 5.0.1.
+# Do not change worldgen or Rivers riverSpeed=3.0, disableFlow=false.
+# These disable RS swimming/breakers only: Use supplied QRS RiversPushPlayers=false to disable Rivers player push separately.

@@ -1,0 +1,8 @@
+{
+  "RiversPushBoats": false,
+  "RiversPushPlayers": false,
+  "StrokePowerMultiplier": {
+    "paddling": 8.0,
+    "sculling": 8.0
+  }
+}

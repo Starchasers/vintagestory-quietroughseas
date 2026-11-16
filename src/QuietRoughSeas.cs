@@ -12,10 +12,13 @@ namespace QuietRoughSeas
     public class QuietRoughSeasConfig
     {
         /// <summary>
-        /// With the Rivers mod: false stops rivers pushing boats in any
-        /// direction, true leaves Rivers as it is. Swimmers are always pushed.
+        /// False permits only helpful longitudinal boat currents (Rough Seas and Rivers).
+        /// True leaves both boat current sources unchanged. Player currents use RiversPushPlayers.
         /// </summary>
         public bool RiversPushBoats = false;
+        public bool RiversPushPlayers = false;
+
+
 
         /// <summary>
         /// Rough Seas stroke name ("paddling", "sculling", "rowing", "pole",
@@ -35,38 +38,8 @@ namespace QuietRoughSeas
         }
     }
 
-    /// <summary>
-    /// Small Harmony patches on top of the Rough Seas mod:
-    ///
-    /// 1. Debug logs. Rough Seas writes all of its debug output through "Log"
-    ///    helper methods on its mod systems (each one ends in
-    ///    Mod.Logger.Debug). Every one of them gets a prefix that skips the
-    ///    call. Notifications, warnings and errors do not go through those
-    ///    helpers and still show up.
-    ///
-    /// 2. Accidental hull damage. Left-clicking a boat makes Rough Seas "Swing"
-    ///    at its hull, and even an empty hand does 0.5 damage per click. The
-    ///    swing is skipped unless an axe is held, so a boat can still be
-    ///    broken up on purpose but not by a stray click or in a fight.
-    ///
-    /// 3. Rivers and boats (only if the Rivers mod is installed). Rivers pushes
-    ///    every rowed boat along the river's flow from its own Harmony postfix
-    ///    on the vanilla boat motion step. That postfix is skipped, so rivers
-    ///    do not move boats at all (RiversPushBoats in
-    ///    ModConfig/quietroughseas.json, default false). Swimmers are pushed
-    ///    by a different Rivers patch, which is left alone.
-    ///
-    /// 4. Paddling speed. Rough Seas gives a rower a fixed body power and each
-    ///    stroke a "gross efficiency", the share of it that reaches the blade;
-    ///    hull drag then settles the speed. The efficiency of the strokes named
-    ///    in StrokePowerMultiplier is multiplied in Rough Seas' loaded config,
-    ///    which makes those boats faster without costing more hunger. No
-    ///    Harmony patch is involved.
-    ///
-    /// The game compiles this file itself and does not hand source mods a
-    /// reference to Harmony, so Harmony is driven through reflection.
-    /// </summary>
-    public class QuietRoughSeasSystem : ModSystem
+    // Reflection-only Harmony integration: source mods have no direct Harmony reference.
+    public partial class QuietRoughSeasSystem : ModSystem
     {
         const string TargetModId = "roughseas";
         const string RiversModId = "rivers";
@@ -89,6 +62,9 @@ namespace QuietRoughSeas
         static bool patched;
         static readonly object patchLock = new object();
 
+
+        bool supported;
+
         Type harmonyMethodType;
         object harmony;
         MethodInfo harmonyPatch;
@@ -98,6 +74,13 @@ namespace QuietRoughSeas
 
         public override void StartPre(ICoreAPI api)
         {
+            Mod target = api.ModLoader.GetMod(TargetModId);
+            supported = target != null && SupportedVersion(target.Info.Version);
+            if (!supported)
+            {
+                Mod.Logger.Warning("Quiet Rough Seas 1.7.0 supports exactly Rough Seas 5.0.1; found {0}. No patches or power edits applied.", target == null ? "missing" : target.Info.Version);
+                return;
+            }
             lock (patchLock)
             {
                 if (patched) return;
@@ -119,12 +102,10 @@ namespace QuietRoughSeas
 
                 LoadConfig(api);
 
-                if (!riversPushBoats && api.ModLoader.GetMod(RiversModId) != null)
-                {
-                    int pushes = Apply(FindRiverBoatPush(ModTypes(api, RiversModId)), "SkipRiverBoatPush", null);
-                    if (pushes > 0) Mod.Logger.Notification("Rivers no longer push boats.");
-                    else Mod.Logger.Warning("Found no Rivers boat push method to patch. Rivers still push boats; this mod needs an update.");
-                }
+                InstallCurrents(api, types);
+                InstallRiverPlayers(api);
+
+
             }
             catch (Exception e)
             {
@@ -155,6 +136,8 @@ namespace QuietRoughSeas
             strokePowerMultiplier = config.StrokePowerMultiplier;
 
             riversPushBoats = config.RiversPushBoats;
+            riversPushPlayers = config.RiversPushPlayers;
+
         }
 
         // ---- Stroke power (edits Rough Seas' loaded propulsion config) ----
@@ -163,6 +146,7 @@ namespace QuietRoughSeas
         // side, so this runs on each side after that.
         public override void AssetsFinalize(ICoreAPI api)
         {
+            if (!supported) return;
             try
             {
                 ScaleStrokePower(api);
@@ -237,8 +221,7 @@ namespace QuietRoughSeas
 
         static bool SkipLog() { return false; }
 
-        // On the Rivers mod's own Harmony postfix that pushes a rowed boat along the flow.
-        static bool SkipRiverBoatPush() { return false; }
+
 
         // "slot" is matched by name to the parameter of Rough Seas' Swing method.
         static bool AllowSwing(ItemSlot slot)
@@ -312,23 +295,6 @@ namespace QuietRoughSeas
                             break;
                         }
                     }
-                }
-            }
-            return found;
-        }
-
-        /// <summary>The Rivers mod's Harmony postfix that pushes a rowed boat along the flow.</summary>
-        static List<MethodInfo> FindRiverBoatPush(List<Type> types)
-        {
-            List<MethodInfo> found = new List<MethodInfo>();
-            foreach (Type type in types)
-            {
-                if (type.Name != "UpdateBoatAngleAndMotionPostfix") continue;
-                foreach (MethodInfo method in type.GetMethods(Declared))
-                {
-                    if (method.Name != "Postfix" || !method.IsStatic || method.ReturnType != typeof(void)) continue;
-                    ParameterInfo[] ps = method.GetParameters();
-                    if (ps.Length == 1 && ps[0].Name == "__instance" && ps[0].ParameterType == typeof(EntityBoat)) found.Add(method);
                 }
             }
             return found;
