@@ -1,1 +1,10 @@
 *.zip
+*.dll
+__pycache__/
+dist/
+tests/fixtures/
+tests/bin*/
+tests/obj*/
+tests/*Harness.csproj
+tests/results.txt
+tests/currents-results.txt
