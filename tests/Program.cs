@@ -9,6 +9,7 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using QuietRoughSeas;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 
@@ -104,9 +105,10 @@ class Program {
   var swings=(List<MethodInfo>)Call(Q,"FindSwingMethods",types);
   var current=Method(asm.GetType("RoughSeas.Floating.EntityBehaviorCurrentDrift",true),"Current");
   Assert(OwnPatch(current),"Floating namespace Current patched");
-  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).ToHashSet();
+  Assert(OwnPatch(ReceiveDamage),"Entity.ReceiveDamage patched for lightning");
+  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).ToHashSet();
   var patched=Harmony.GetAllPatchedMethods().Where(OwnPatch).ToArray();
-  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull and boat Current only; no swimming breath wave patches");
+  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull boat Current and lightning guard only; no swimming breath wave patches");
   foreach(var t in types.Where(t=>t.Namespace=="RoughSeas.Person"||t.Name.Contains("Breath")||t.Name.Contains("Wave")||t.Name=="DrawnWater"||t.Name=="DrawnSea"))
    Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&OwnPatch(m)),"no swimming breath wave hooks on "+t.FullName);
   var counts=patched.ToDictionary(m=>m,m=>Harmony.GetPatchInfo(m).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Postfixes.Count(p=>p.owner=="quietroughseas"));
@@ -123,6 +125,7 @@ class Program {
   var probe=new Harmony("headless-regression-probe");
   TestLogsAndHull(asm,types,probe);
   TestPower(quiet,api,propulsion,state);
+  TestLightning(asm,probe);
   serverQuiet.AssetsFinalize((ICoreAPI)serverState.Get(typeof(ICoreServerAPI)));
   Assert(before.All(kv=>(double)Get(strokes[kv.Key],"GrossEfficiency")==kv.Value*(kv.Key=="paddling"||kv.Key=="sculling"?8:1)),"shared client/server stroke objects never double-scale");
  }
@@ -147,6 +150,32 @@ class Program {
     Assert(reached==(tool==EnumTool.Axe),"actual hull prefix "+(tool?.ToString()??"empty hand")+(reached?" resumes original (intentional null entity sentinel)":" skips original safely"));
    }
   }
+ }
+ static readonly MethodInfo ReceiveDamage=typeof(Entity).GetMethod("ReceiveDamage",new[]{typeof(DamageSource),typeof(float)});
+ // Uninitialized entities: a spared blow never enters Entity.ReceiveDamage; any other blow does (returning or throwing there).
+ static bool Entered(Type type,DamageSource source) {
+  var entity=RuntimeHelpers.GetUninitializedObject(type);Ran.Remove(ReceiveDamage);
+  try{ReceiveDamage.Invoke(entity,new object[]{source,6f});}catch(TargetInvocationException){return true;}
+  return Ran[ReceiveDamage];
+ }
+ static void TestLightning(Assembly asm,Harmony probe) {
+  if(Negative=="lightning") {
+   new Harmony("headless-negative-control").Unpatch(ReceiveDamage,HarmonyPatchType.Prefix,"quietroughseas");
+   Console.WriteLine("NEGATIVE CONTROL: removed production lightning prefix in this fresh process");
+  }
+  probe.Patch(ReceiveDamage,postfix:new HarmonyMethod(typeof(Program).GetMethod("After",Any)));
+  var lightning=new DamageSource{Source=EnumDamageSource.Weather,Type=EnumDamageType.Electricity};
+  var hail=new DamageSource{Source=EnumDamageSource.Weather,Type=EnumDamageType.BluntAttack};
+  var shock=new DamageSource{Source=EnumDamageSource.Entity,Type=EnumDamageType.Electricity};
+  Assert(!new QuietRoughSeasConfig().LightningDamagesAnimals,"config default spares animals from lightning");
+  Assert(!Entered(typeof(EntityAgent),lightning),"actual lightning prefix spares animal");
+  Assert(Entered(typeof(EntityPlayer),lightning),"lightning still reaches player");
+  Assert(Entered(asm.GetType("RoughSeas.Vessels.EntityVessel",true),lightning),"lightning still reaches Rough Seas vessel hull");
+  Assert(Entered(typeof(EntityAgent),hail),"other weather damage still reaches animal");
+  Assert(Entered(typeof(EntityAgent),shock),"non-weather electricity still reaches animal");
+  Set(Q,"lightningDamagesAnimals",true);
+  Assert(Entered(typeof(EntityAgent),lightning),"LightningDamagesAnimals=true leaves lightning on animals");
+  Set(Q,"lightningDamagesAnimals",false);
  }
  static void TestPower(QuietRoughSeasSystem quiet,ICoreAPI api,ModSystem propulsion,State s) {
   var config=propulsion.GetType().GetProperty("Config").GetValue(propulsion);
