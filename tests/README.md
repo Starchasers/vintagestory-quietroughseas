@@ -28,7 +28,7 @@ Setup generates ignored project files and copies every upstream C#/JSON file ver
 
 ## Coverage and limits
 
-- Core: 170 assertions, with log/hull/power patch-removal negative controls.
+- Core: 178 assertions, with log/hull/power/lightning patch-removal negative controls.
 - Currents/player flow: 65 assertions and 2,000 seeded projection cases, with four negative controls.
 - Composite Rough Seas current → hull integration → actual Rivers boat postfix, player-current opt-out/opt-in, nonplayer behavior and vanilla liquid-physics continuation are exercised.
 - Expected negative-control processes exit nonzero; the runner succeeds only when they fail at the intended assertion and the final unmodified production run passes.
