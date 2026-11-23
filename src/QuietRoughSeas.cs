@@ -18,7 +18,12 @@ namespace QuietRoughSeas
         public bool RiversPushBoats = false;
         public bool RiversPushPlayers = false;
 
-
+        /// <summary>
+        /// False spares every living creature except players from lightning
+        /// damage, from Rough Seas storms and the game's own thunderstorms alike.
+        /// True leaves lightning as the game has it.
+        /// </summary>
+        public bool LightningDamagesAnimals = false;
 
         /// <summary>
         /// Rough Seas stroke name ("paddling", "sculling", "rowing", "pole",
@@ -78,7 +83,7 @@ namespace QuietRoughSeas
             supported = target != null && SupportedVersion(target.Info.Version);
             if (!supported)
             {
-                Mod.Logger.Warning("Quiet Rough Seas 1.7.0 supports exactly Rough Seas 5.0.1; found {0}. No patches or power edits applied.", target == null ? "missing" : target.Info.Version);
+                Mod.Logger.Warning("Quiet Rough Seas 1.8.0 supports exactly Rough Seas 5.0.1; found {0}. No patches or power edits applied.", target == null ? "missing" : target.Info.Version);
                 return;
             }
             lock (patchLock)
@@ -104,7 +109,7 @@ namespace QuietRoughSeas
 
                 InstallCurrents(api, types);
                 InstallRiverPlayers(api);
-
+                InstallLightning();
 
             }
             catch (Exception e)
@@ -137,6 +142,7 @@ namespace QuietRoughSeas
 
             riversPushBoats = config.RiversPushBoats;
             riversPushPlayers = config.RiversPushPlayers;
+            lightningDamagesAnimals = config.LightningDamagesAnimals;
 
         }
 

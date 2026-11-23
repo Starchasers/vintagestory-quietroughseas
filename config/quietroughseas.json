@@ -1,6 +1,7 @@
 {
   "RiversPushBoats": false,
   "RiversPushPlayers": false,
+  "LightningDamagesAnimals": false,
   "StrokePowerMultiplier": {
     "paddling": 8.0,
     "sculling": 8.0
