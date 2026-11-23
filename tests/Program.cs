@@ -93,7 +93,11 @@ class Program {
   }
   state.Target=null;quiet.StartPre(api);quiet.AssetsFinalize(api);
   Assert(!(bool)Get(Q,"patched")&&!Harmony.GetAllPatchedMethods().Any()&&state.Count("StoreModConfig")==0,"missing Rough Seas lifecycle is inert");
+  RowingChecks.Red(asm,Assert);
   state.Target=originalTarget;state.Logs.Clear();quiet.StartPre(api);
+  if(Environment.GetEnvironmentVariable("QRS_NEGATIVE_CONTROL")=="rowing")
+   foreach(string name in new[]{"Pace","DrawnShare","Finish"}) new Harmony("negative.rowing").Unpatch(asm.GetType("RoughSeas.Propulsion.MountStrokes").GetMethod(name,Any),HarmonyPatchType.Transpiler,"quietroughseas");
+  try { RowingChecks.Green(asm,Assert); } catch(Exception e) { throw new Exception("FAIL rowing lifecycle readiness",e); }
   Assert((bool)Get(Q,"patched"),"supported StartPre installs via production reflection Harmony loader");
   if(state.Logs.Any(l=>l.StartsWith("Warning:"))) Console.WriteLine(string.Join("\n",state.Logs));
   Assert(!state.Logs.Any(l=>l.StartsWith("Warning:")),"no supported-install warnings");
@@ -106,16 +110,17 @@ class Program {
   var current=Method(asm.GetType("RoughSeas.Floating.EntityBehaviorCurrentDrift",true),"Current");
   Assert(OwnPatch(current),"Floating namespace Current patched");
   Assert(OwnPatch(ReceiveDamage),"Entity.ReceiveDamage patched for lightning");
-  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).ToHashSet();
+  var rowing=asm.GetType("RoughSeas.Propulsion.MountStrokes").GetMethods(Any).Where(m=>new[]{"Pace","DrawnShare","Finish"}.Contains(m.Name));
+  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).Concat(rowing).ToHashSet();
   var patched=Harmony.GetAllPatchedMethods().Where(OwnPatch).ToArray();
-  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull boat Current and lightning guard only; no swimming breath wave patches");
+  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull boat Current lightning and three rowing methods only; no global animation patches");
   foreach(var t in types.Where(t=>t.Namespace=="RoughSeas.Person"||t.Name.Contains("Breath")||t.Name.Contains("Wave")||t.Name=="DrawnWater"||t.Name=="DrawnSea"))
    Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&OwnPatch(m)),"no swimming breath wave hooks on "+t.FullName);
-  var counts=patched.ToDictionary(m=>m,m=>Harmony.GetPatchInfo(m).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Postfixes.Count(p=>p.owner=="quietroughseas"));
+  var counts=patched.ToDictionary(m=>m,m=>Harmony.GetPatchInfo(m).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Postfixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Transpilers.Count(p=>p.owner=="quietroughseas"));
   quiet.StartPre(api);
   var serverState=new State{Side=EnumAppSide.Server,Target=state.Target};
   var serverQuiet=new QuietRoughSeasSystem();MakeMod("test",logger,serverQuiet);serverQuiet.StartPre((ICoreAPI)serverState.Get(typeof(ICoreServerAPI)));
-  Assert(counts.All(kv=>Harmony.GetPatchInfo(kv.Key).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(kv.Key).Postfixes.Count(p=>p.owner=="quietroughseas")==kv.Value),"repeated client/server startup never duplicates patches");
+  Assert(counts.All(kv=>Harmony.GetPatchInfo(kv.Key).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(kv.Key).Postfixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(kv.Key).Transpilers.Count(p=>p.owner=="quietroughseas")==kv.Value),"repeated client/server startup never duplicates patches");
   Assert(state.Count("StoreModConfig")==1&&serverState.Count("StoreModConfig")==0,"process-wide startup config remains once only");
   if(Negative=="logs"||Negative=="hull") {
    var victim=Negative=="logs"?logs.First():swings.Single();

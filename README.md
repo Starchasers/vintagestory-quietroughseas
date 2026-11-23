@@ -1,4 +1,4 @@
-# Kuboczoch: Quiet Rough Seas 1.8.0
+# Kuboczoch: Quiet Rough Seas 1.8.1
 
 Compatibility update of **Hubert's Quiet Rough Seas**, retaining Hubert attribution.
 For **exactly Rough Seas 5.0.1**, tested against Vintage Story API 1.22.7.0 and Harmony 2.4.2.0. The mod metadata dependency is a minimum; the runtime guard is exact and rejects legacy, future and prerelease versions without patches or power edits.
@@ -6,7 +6,7 @@ For **exactly Rough Seas 5.0.1**, tested against Vintage Story API 1.22.7.0 and 
 ## Install / existing world — not performed by this delivery
 
 1. Fully stop client/server. Back up the world, installed mod ZIPs, ModConfig and the existing values of the world settings below.
-2. Remove the old Quiet Rough Seas ZIP. Install `quietroughseas_1.8.0.zip` in Mods on both client and server with Rough Seas **5.0.1**. Do not install duplicate copies. This is a source mod: it contains C# source, not a compiled DLL.
+2. Remove the old Quiet Rough Seas ZIP. Install `quietroughseas_1.8.1.zip` in Mods on both client and server with Rough Seas **5.0.1**. Do not install duplicate copies. This is a source mod: it contains C# source, not a compiled DLL.
 3. Copy the supplied `quietroughseas.json` to **ModConfig/quietroughseas.json**, not Mods. Keep matching client/server versions and config. Restart fully.
 4. As world administrator, run in the existing world:
 
@@ -52,7 +52,7 @@ python package.py
 
 - Full tagged 5.0.1 upstream source (524 C#/JSON files) is byte-checked against git and compiled, not replaced with extracted stubs.
 - Exact original 1.6 source first failed the new 5.0.1 acceptance check: `tests/red-1.6-results.txt`. It refuses 5.0.1 as unsupported.
-- `tests/results.txt`: **178** passing runtime assertions, plus four intended failing log/hull/power/lightning negative controls. The 1.8.0 lightning additions (8 assertions, one negative control) were written without a .NET SDK at hand and have not been run yet.
+- `tests/results.txt`: **195** passing runtime assertions, plus five intended failing log/hull/power/lightning/rowing negative controls. Includes the existing 1.8.0 lightning tests, two pre-patch native rowing NRE reproductions and post-patch lifecycle checks.
 - `tests/currents-results.txt`: **65** passing runtime assertions, **2000** seeded geometry cases, plus four intended failing current-hook negative controls. Includes actual Rivers 5.0.3 DLL, actual production reflection/Harmony installation, preserved initial/vertical motion, reverse/idle cases and a same-boat composite path: actual RS Current → actual HullSet.Relax/Rowed → actual Rivers postfix, repeated after explicit propulsion resets. Each native contribution appears once.
 - Tests show no custom swimming/breath/wave patches and preserve vanilla DoApply/Rivers boat registrations. Actual Rivers player-prefix false/true behavior, dt/shift scaling, nonplayers and real vanilla DoApply continuation are tested, with a patch-removal negative control.
 
@@ -60,6 +60,21 @@ Headless interface doubles and deterministic RS sea sampling are used. Composite
 
 Tests require .NET SDK 10, actual game assemblies, a Rivers DLL and an upstream checkout supplied through the environment variables documented in `tests/README.md`; game/Rivers binaries are not redistributed. Generated source/test archives include upstream source fixtures and their provenance/license, not an installable Rough Seas replacement.
 
+## Rowing animation lifecycle fix (1.8.1)
+
+The three `MountStrokes` animation-state reads now treat a missing manager or
+not-yet-created/unloaded animator as an unavailable animation. Only those reads
+are rewritten; normal virtual `GetAnimationState` routing and all original
+stroke bookkeeping remain intact. No global animation patch or exception
+suppression is installed. The ready member of a manager pair is not gated on
+its sibling. See [source research and validation](research/rowing-animation-lifecycle.md).
+
+A fresh dedicated **1.22.7** server compiled the installable source ZIP with
+Roslyn, installed all three rowing transpilers against the official Rough Seas
+5.0.1 binary, reached RunGame and stopped cleanly. This is not connected-client
+rendering validation; FP/immersive-FP visuals and a real seated player remain
+manual acceptance checks.
+
 ## Rollback
 
-Stop client/server. Remove 1.8.0 and restore backed-up matching mod ZIPs and ModConfig files on both ends. Restore the saved world-setting values using `/worldconfig <name> <previous-value>`, then fully restart. If rolling Rough Seas back to 4.x, use its matching older Quiet Rough Seas and saved configuration, not this exact-5.0.1 build. Restore the world backup if the upstream mod upgrade itself requires rollback; this addon makes no worldgen changes.
+Stop client/server. Remove 1.8.1 and restore backed-up matching mod ZIPs and ModConfig files on both ends. Restore the saved world-setting values using `/worldconfig <name> <previous-value>`, then fully restart. If rolling Rough Seas back to 4.x, use its matching older Quiet Rough Seas and saved configuration, not this exact-5.0.1 build. Restore the world backup if the upstream mod upgrade itself requires rollback; this addon makes no worldgen changes.
