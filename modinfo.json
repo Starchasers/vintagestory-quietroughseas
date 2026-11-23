@@ -7,7 +7,7 @@
     "Kuboczoch"
   ],
   "description": "Hubert original; Kuboczoch compatibility update. Mutes Rough Seas debug logs, axe-only player hull hits, 8x paddling/sculling power, helpful-only boat currents and no lightning damage to animals. Exactly Rough Seas 5.0.1; native worldconfig controls swimming.",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "dependencies": {
     "game": "1.22.0",
     "roughseas": "5.0.1"

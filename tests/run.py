@@ -31,7 +31,7 @@ with (ROOT / 'results.txt').open('w') as out:
         if p.returncode != expected:
             raise SystemExit(f'Expected exit {expected}, got {p.returncode}')
         return p.stdout
-    record('Exact Rough Seas 5.0.1 / Quiet Rough Seas 1.8 headless regression; no in-game tests claimed.\n')
+    record('Exact Rough Seas 5.0.1 / Quiet Rough Seas 1.8.1 headless regression; no in-game tests claimed.\n')
     record('Production source SHA256 at execution:\n' + json.dumps(source_hashes, indent=2) + '\n')
     tracked = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', tag, 'RoughSeas'], cwd=REPO, text=True).splitlines()
     expected_files = {p for p in tracked if p.endswith(('.cs', '.json'))}
@@ -50,7 +50,8 @@ with (ROOT / 'results.txt').open('w') as out:
     for control, marker in [('logs', 'FAIL actual Harmony skips log '),
                             ('hull', 'FAIL actual hull prefix empty hand resumes original'),
                             ('power', 'FAIL actual config paddling efficiency multiplier 8'),
-                            ('lightning', 'FAIL actual lightning prefix spares animal')]:
+                            ('lightning', 'FAIL actual lightning prefix spares animal'),
+                            ('rowing', 'FAIL rowing lifecycle readiness')]:
         text = run(command, expected=1, negative=control)
         assert marker in text, f'{control} failed somewhere other than intended assertion'
         record(f'PASS process-local {control} negative control fails at intended assertion\n')
@@ -61,4 +62,4 @@ with (ROOT / 'results.txt').open('w') as out:
     assert count == int(match[1]), (count, match[1])
     assert hashes() == source_hashes, 'Production source changed during execution; rerun against stable sources'
     record('PASS production source hashes unchanged during build/execution\n')
-    record(f'AGGREGATE {count} runtime assertions passed against actual {tag}; 4 process-local negative controls failed as intended; 0 unexpected failures.\n')
+    record(f'AGGREGATE {count} runtime assertions passed against actual {tag}; 5 process-local negative controls failed as intended; 0 unexpected failures.\n')
