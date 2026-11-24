@@ -8,3 +8,4 @@ tests/obj*/
 tests/*Harness.csproj
 tests/results.txt
 tests/currents-results.txt
+tests/motion-results.txt

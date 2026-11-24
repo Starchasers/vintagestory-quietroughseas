@@ -111,11 +111,12 @@ class Program {
   Assert(OwnPatch(current),"Floating namespace Current patched");
   Assert(OwnPatch(ReceiveDamage),"Entity.ReceiveDamage patched for lightning");
   var rowing=asm.GetType("RoughSeas.Propulsion.MountStrokes").GetMethods(Any).Where(m=>new[]{"Pace","DrawnShare","Finish"}.Contains(m.Name));
-  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).Concat(rowing).ToHashSet();
+  var motion=new MethodBase[]{Method(asm.GetType("RoughSeas.Person.BodyAfloat"),"Afloat"),Method(asm.GetType("RoughSeas.Floating.VesselMotion"),"Lift"),Method(typeof(Vintagestory.GameContent.EntityBehaviorPlayerPhysics),"OnPhysicsTick"),Method(Type.GetType("Vintagestory.Client.NoObf.NetworkAPI, VintagestoryLib",true),"SendPlayerPositionPacket")};
+  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).Concat(rowing).Concat(motion).ToHashSet();
   var patched=Harmony.GetAllPatchedMethods().Where(OwnPatch).ToArray();
-  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull boat Current lightning and three rowing methods only; no global animation patches");
+  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches");
   foreach(var t in types.Where(t=>t.Namespace=="RoughSeas.Person"||t.Name.Contains("Breath")||t.Name.Contains("Wave")||t.Name=="DrawnWater"||t.Name=="DrawnSea"))
-   Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&OwnPatch(m)),"no swimming breath wave hooks on "+t.FullName);
+   Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&!(t.FullName=="RoughSeas.Person.BodyAfloat"&&m.Name=="Afloat")&&OwnPatch(m)),"no unrelated swimming breath wave hooks on "+t.FullName);
   var counts=patched.ToDictionary(m=>m,m=>Harmony.GetPatchInfo(m).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Postfixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Transpilers.Count(p=>p.owner=="quietroughseas"));
   quiet.StartPre(api);
   var serverState=new State{Side=EnumAppSide.Server,Target=state.Target};

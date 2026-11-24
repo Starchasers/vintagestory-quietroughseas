@@ -1,0 +1,17 @@
+Fresh native dataPath: /home/brunette/.hermes/cache/scratch/qrs-native-txm0eysa
+Addon SHA256: 234820074f73ac2456b043e6e0fb8826ac30e7b6f407d892cfcbf8a690b1cf6c
+Rough Seas ZIP SHA256: 9054ff7bcef6f4d45f03b9abfad41d889d87cc682d3b5755f5b2173680d182e2
+VintagestoryAPI SHA256: 034283e7e9d98eae45ee63005576fd89badc3c995b531cc4c3fe46f3eb2d3296
+24.11.2026 22:13:08 [Server Debug] [quietroughseas] Successfully compiled mod with Roslyn
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Successfully compiled 7 source files
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Silenced 16 Rough Seas debug log methods.
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Boats now only take hit damage from axes.
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Lightning damage to animals is off.
+24.11.2026 22:13:08 [Server Notification] [quietroughseas] Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+24.11.2026 22:13:19 [Server Notification] [quietroughseas] Rough Seas 'paddling' stroke power multiplied by 8 on the Server (efficiency 0.1 to 0.8).
+24.11.2026 22:13:19 [Server Notification] [quietroughseas] Rough Seas 'sculling' stroke power multiplied by 8 on the Server (efficiency 0.1 to 0.8).
+24.11.2026 22:13:35 [Server Event] Dedicated Server now running on Port 59101 and ip 127.0.0.1!
+24.11.2026 22:13:36 [Server Event] All threads gracefully shut down
+PASS native Roslyn source compilation, production Harmony installation against official binary, RunGame, /stop, exit 0 and released loopback port
+LIMITATION: no connected player, boat render or FP/immersive-FP visuals exercised

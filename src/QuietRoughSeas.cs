@@ -83,7 +83,7 @@ namespace QuietRoughSeas
             supported = target != null && SupportedVersion(target.Info.Version);
             if (!supported)
             {
-                Mod.Logger.Warning("Quiet Rough Seas 1.8.0 supports exactly Rough Seas 5.0.1; found {0}. No patches or power edits applied.", target == null ? "missing" : target.Info.Version);
+                Mod.Logger.Warning("Quiet Rough Seas 1.8.2 supports exactly Rough Seas 5.0.1; found {0}. No patches or power edits applied.", target == null ? "missing" : target.Info.Version);
                 return;
             }
             lock (patchLock)
@@ -111,6 +111,7 @@ namespace QuietRoughSeas
                 InstallCurrents(api, types);
                 InstallRiverPlayers(api);
                 InstallLightning();
+                InstallPlayerMotion(types);
 
             }
             catch (Exception e)
