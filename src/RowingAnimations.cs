@@ -10,9 +10,11 @@ namespace QuietRoughSeas
     {
         // Only the three state reads in the pinned MountStrokes implementation.
         // Keep its virtual lookup (including FP/-ifp routing), not Animator's raw lookup.
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         static RunningAnimation ReadyStrokeState(IAnimationManager manager, string code)
         {
-            return manager == null || manager.Animator == null ? null : manager.GetAnimationState(code);
+            if (!AnimationContextReady(manager, true)) { CosmeticDiagnostic("animation-read", "manager/animator context not ready"); return null; }
+            return manager.GetAnimationState(code);
         }
 
         void InstallRowingAnimations(List<Type> types)
@@ -21,7 +23,8 @@ namespace QuietRoughSeas
             if (mount == null) throw new TypeLoadException("RoughSeas.Propulsion.MountStrokes");
             Assembly harmonyAssembly = harmonyMethodType.Assembly;
             Type instruction = harmonyAssembly.GetType("HarmonyLib.CodeInstruction", true);
-            MethodInfo rewrite = typeof(QuietRoughSeasSystem).GetMethod("RewriteStrokeReads", BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(instruction);
+            MethodInfo rewrite = typeof(QuietRoughSeasSystem).GetMethod("RewriteStrokeReads", BindingFlags.Static | BindingFlags.Public).MakeGenericMethod(instruction);
+            rewrite = AnimationTranspiler(rewrite, instruction);
             object transpiler = Activator.CreateInstance(harmonyMethodType, new object[] { rewrite });
             foreach (string name in new[] { "DrawnShare", "Pace", "Finish" })
             {
@@ -30,6 +33,7 @@ namespace QuietRoughSeas
                 object[] args = new object[harmonyPatch.GetParameters().Length];
                 args[0] = target;
                 args[3] = transpiler;
+                if (name == "Pace" || name == "DrawnShare") args[4] = Activator.CreateInstance(harmonyMethodType, new object[] { typeof(QuietRoughSeasSystem).GetMethod("CosmeticFailure", BindingFlags.Static | BindingFlags.NonPublic) });
                 harmonyPatch.Invoke(harmony, args);
             }
             Mod.Logger.Notification("Guarded Rough Seas rowing animation reads until each manager's animator is ready.");
@@ -37,7 +41,7 @@ namespace QuietRoughSeas
 
         // Closed over Harmony's actual CodeInstruction type at runtime so the
         // installable source mod still needs no compile-time Harmony reference.
-        static IEnumerable<T> RewriteStrokeReads<T>(IEnumerable<T> instructions)
+        public static IEnumerable<T> RewriteStrokeReads<T>(IEnumerable<T> instructions)
         {
             FieldInfo opcode = typeof(T).GetField("opcode");
             FieldInfo operand = typeof(T).GetField("operand");
@@ -51,6 +55,16 @@ namespace QuietRoughSeas
                     opcode.SetValue(instruction, OpCodes.Call);
                     operand.SetValue(instruction, safe);
                     replaced++;
+                }
+                MethodInfo animationCall = operand.GetValue(instruction) as MethodInfo;
+                if ((OpCode)opcode.GetValue(instruction) == OpCodes.Callvirt && animationCall?.DeclaringType == typeof(IAnimationManager))
+                {
+                    string name = animationCall.Name == "StartAnimation" ? (animationCall.GetParameters()[0].ParameterType == typeof(string) ? "ReadyAnimationStart" : "ReadyAnimationMeta") : animationCall.Name == "StopAnimation" ? "ReadyAnimationStop" : null;
+                    if (name != null)
+                    {
+                        opcode.SetValue(instruction, OpCodes.Call);
+                        operand.SetValue(instruction, typeof(QuietRoughSeasSystem).GetMethod(name, BindingFlags.Static | BindingFlags.NonPublic));
+                    }
                 }
                 yield return instruction;
             }

@@ -1,0 +1,1081 @@
+Exact Rough Seas 5.0.1 / Quiet Rough Seas 1.8.3 headless regression; no in-game tests claimed.
+Production source SHA256 at execution:
+{
+  "src/AnimationSafety.cs": "28e82f786db28b928b4dd5c4e951fde8c9c48fd88a44118758e31e981aa6c462",
+  "src/HelpfulCurrents.cs": "efabe157767428a4c8ed32324a8fdfd08f5abd6ea4d7ee0769c18a9f4b403763",
+  "src/Lightning.cs": "222e80429dfe61b4d693801fd0b9e2ad24ee19d08f3fb8bb9f118dbd501340c2",
+  "src/PlayerMotion.cs": "2c1561da8b0f02bdbc338eabd3078711cb5b43235e709e5dd47bb1401d182174",
+  "src/QuietRoughSeas.cs": "4b97db8301a8869626ba3d1815c25ce80022a98fcb3566b564d16e086175ee4e",
+  "src/RiverPlayers.cs": "018ac84d4c707ab1c9592c6df643d4f0d5c9d2e276679504a23456a1a275f0e8",
+  "src/RowingAnimations.cs": "6abc2e198b54a3b6982ebfe07da2272e896a9b0d1f69147447b01187821980ac",
+  "src/Swimming.cs": "fc9bcde4f1545d01ff9d6e91a2d78bb748a0dcc1ab99159fbf98be9a9e2cf101"
+}
+PASS fixture v5.0.1: all 524 cs/json files byte-identical to git, complete file manifest; {"tag": "v5.0.1", "commit": "953797c053133d56b7b1ca6f7599e4f982547a6e", "source": "git show tag:RoughSeas/...; all cs/json verbatim"}
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build fixtures/v5.0.1/Upstream.csproj -v:q
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.89
+EXIT 0
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build Harness.csproj -v:q
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.00
+EXIT 0
+$ QRS_NEGATIVE_CONTROL=logs /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe AnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS ready Pace preserves clone and speed scaling
+PASS ready DrawnShare preserves progress
+PASS ready to unloaded lifecycle is safe
+PASS animator readiness recovers without permanent disable
+PASS ready native PlayerAnimationManager preserves pace fp=True
+PASS ready native PlayerAnimationManager preserves pace fp=False
+PASS unrelated exceptions propagate unchanged
+PASS supported StartPre installs via production reflection Harmony loader
+Notification:Silenced {0} Rough Seas debug log methods. 16
+Notification:Boats now only take hit damage from axes.
+Notification:Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+Notification:Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).
+Notification:Lightning damage to animals is {0}. off
+Notification:Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+Warning:Cosmetic lifecycle guard animation-read: manager/animator context not ready; suppressed repeats=0. Will retry when ready.
+PASS no supported-install warnings
+PASS supported StartPre writes config exactly once
+PASS removed swimming config absent
+PASS no custom swimming hook methods remain
+PASS Floating namespace Current patched
+PASS Entity.ReceiveDamage patched for lightning
+PASS exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.EnteringWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.ShortWavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveImpact
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveEnergy
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTheory
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTrains
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.TransformedWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTransformation
+PASS no unrelated swimming breath wave hooks on RoughSeas.Vessels.WaveMaking
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathVerdict
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnBreath
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnSea
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnWater
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWave
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.Waves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WaveTime
+PASS no unrelated swimming breath wave hooks on RoughSeas.Soundscape.WaveCue
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WaveGeneration
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyAfloat
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Breaker
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakerPacket
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatingBody
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyPlace
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyMotion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Immersion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.IPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Carried
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Legs
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.LegsConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodySegmentConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.CarriedConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.ToolConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PartConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Worn
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Held
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Posture
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmerBreakers
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingArms
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimStroke
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimWarning
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Refusal
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.WaveRide
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+Slab
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c__DisplayClass17_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed+<>c__DisplayClass9_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c__DisplayClass1_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem+<>O
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+Kit
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c__DisplayClass15_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength+<>c__DisplayClass7_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.EntityBehaviorSeaForces+TakenWave
+PASS repeated client/server startup never duplicates patches
+PASS process-wide startup config remains once only
+NEGATIVE CONTROL: removed production logs prefix in this fresh process
+PASS discovers upstream log targets
+System.Exception: FAIL actual Harmony skips log WindModSystem
+   at Program.Assert(Boolean v, String name) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 53
+   at Program.TestLogsAndHull(Assembly asm, List`1 types, Harmony probe) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 147
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 134
+   at Program.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 65
+EXIT 1
+PASS process-local logs negative control fails at intended assertion
+$ QRS_NEGATIVE_CONTROL=hull /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe AnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS ready Pace preserves clone and speed scaling
+PASS ready DrawnShare preserves progress
+PASS ready to unloaded lifecycle is safe
+PASS animator readiness recovers without permanent disable
+PASS ready native PlayerAnimationManager preserves pace fp=True
+PASS ready native PlayerAnimationManager preserves pace fp=False
+PASS unrelated exceptions propagate unchanged
+PASS supported StartPre installs via production reflection Harmony loader
+Notification:Silenced {0} Rough Seas debug log methods. 16
+Notification:Boats now only take hit damage from axes.
+Notification:Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+Notification:Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).
+Notification:Lightning damage to animals is {0}. off
+Notification:Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+Warning:Cosmetic lifecycle guard animation-read: manager/animator context not ready; suppressed repeats=0. Will retry when ready.
+PASS no supported-install warnings
+PASS supported StartPre writes config exactly once
+PASS removed swimming config absent
+PASS no custom swimming hook methods remain
+PASS Floating namespace Current patched
+PASS Entity.ReceiveDamage patched for lightning
+PASS exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.EnteringWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.ShortWavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveImpact
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveEnergy
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTheory
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTrains
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.TransformedWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTransformation
+PASS no unrelated swimming breath wave hooks on RoughSeas.Vessels.WaveMaking
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathVerdict
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnBreath
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnSea
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnWater
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWave
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.Waves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WaveTime
+PASS no unrelated swimming breath wave hooks on RoughSeas.Soundscape.WaveCue
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WaveGeneration
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyAfloat
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Breaker
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakerPacket
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatingBody
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyPlace
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyMotion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Immersion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.IPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Carried
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Legs
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.LegsConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodySegmentConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.CarriedConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.ToolConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PartConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Worn
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Held
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Posture
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmerBreakers
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingArms
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimStroke
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimWarning
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Refusal
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.WaveRide
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+Slab
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c__DisplayClass17_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed+<>c__DisplayClass9_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c__DisplayClass1_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem+<>O
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+Kit
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c__DisplayClass15_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength+<>c__DisplayClass7_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.EntityBehaviorSeaForces+TakenWave
+PASS repeated client/server startup never duplicates patches
+PASS process-wide startup config remains once only
+NEGATIVE CONTROL: removed production hull prefix in this fresh process
+PASS discovers upstream log targets
+PASS actual Harmony skips log WindModSystem
+PASS actual Harmony skips log VesselsModSystem
+PASS actual Harmony skips log WoodsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log ShoreModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log SeaWeatherSystem
+PASS actual Harmony skips log SailingModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log OtherModCompat
+PASS actual Harmony skips log CargoModSystem
+PASS finds actual hull Swing
+System.Exception: FAIL actual hull prefix empty hand resumes original (intentional null entity sentinel)
+   at Program.Assert(Boolean v, String name) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 53
+   at Program.TestLogsAndHull(Assembly asm, List`1 types, Harmony probe) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 158
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 134
+   at Program.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 65
+EXIT 1
+PASS process-local hull negative control fails at intended assertion
+$ QRS_NEGATIVE_CONTROL=power /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe AnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS ready Pace preserves clone and speed scaling
+PASS ready DrawnShare preserves progress
+PASS ready to unloaded lifecycle is safe
+PASS animator readiness recovers without permanent disable
+PASS ready native PlayerAnimationManager preserves pace fp=True
+PASS ready native PlayerAnimationManager preserves pace fp=False
+PASS unrelated exceptions propagate unchanged
+PASS supported StartPre installs via production reflection Harmony loader
+Notification:Silenced {0} Rough Seas debug log methods. 16
+Notification:Boats now only take hit damage from axes.
+Notification:Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+Notification:Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).
+Notification:Lightning damage to animals is {0}. off
+Notification:Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+Warning:Cosmetic lifecycle guard animation-read: manager/animator context not ready; suppressed repeats=0. Will retry when ready.
+PASS no supported-install warnings
+PASS supported StartPre writes config exactly once
+PASS removed swimming config absent
+PASS no custom swimming hook methods remain
+PASS Floating namespace Current patched
+PASS Entity.ReceiveDamage patched for lightning
+PASS exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.EnteringWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.ShortWavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveImpact
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveEnergy
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTheory
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTrains
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.TransformedWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTransformation
+PASS no unrelated swimming breath wave hooks on RoughSeas.Vessels.WaveMaking
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathVerdict
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnBreath
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnSea
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnWater
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWave
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.Waves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WaveTime
+PASS no unrelated swimming breath wave hooks on RoughSeas.Soundscape.WaveCue
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WaveGeneration
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyAfloat
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Breaker
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakerPacket
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatingBody
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyPlace
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyMotion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Immersion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.IPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Carried
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Legs
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.LegsConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodySegmentConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.CarriedConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.ToolConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PartConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Worn
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Held
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Posture
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmerBreakers
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingArms
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimStroke
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimWarning
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Refusal
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.WaveRide
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+Slab
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c__DisplayClass17_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed+<>c__DisplayClass9_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c__DisplayClass1_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem+<>O
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+Kit
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c__DisplayClass15_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength+<>c__DisplayClass7_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.EntityBehaviorSeaForces+TakenWave
+PASS repeated client/server startup never duplicates patches
+PASS process-wide startup config remains once only
+PASS discovers upstream log targets
+PASS actual Harmony skips log WindModSystem
+PASS actual Harmony skips log VesselsModSystem
+PASS actual Harmony skips log WoodsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log ShoreModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log SeaWeatherSystem
+PASS actual Harmony skips log SailingModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log OtherModCompat
+PASS actual Harmony skips log CargoModSystem
+PASS finds actual hull Swing
+PASS actual hull prefix empty hand skips original safely
+PASS actual hull prefix Hammer skips original safely
+PASS actual hull prefix Pickaxe skips original safely
+PASS actual hull prefix Knife skips original safely
+PASS actual hull prefix Sword skips original safely
+PASS actual hull prefix Axe resumes original (intentional null entity sentinel)
+NEGATIVE CONTROL: replaced production power multipliers with 1 in this fresh process
+PASS actual config pole efficiency multiplier 1
+PASS actual config seatedpole efficiency multiplier 1
+System.Exception: FAIL actual config paddling efficiency multiplier 8
+   at Program.Assert(Boolean v, String name) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 53
+   at Program.TestPower(QuietRoughSeasSystem quiet, ICoreAPI api, ModSystem propulsion, State s) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 194
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 135
+   at Program.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 65
+EXIT 1
+PASS process-local power negative control fails at intended assertion
+$ QRS_NEGATIVE_CONTROL=lightning /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe AnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS ready Pace preserves clone and speed scaling
+PASS ready DrawnShare preserves progress
+PASS ready to unloaded lifecycle is safe
+PASS animator readiness recovers without permanent disable
+PASS ready native PlayerAnimationManager preserves pace fp=True
+PASS ready native PlayerAnimationManager preserves pace fp=False
+PASS unrelated exceptions propagate unchanged
+PASS supported StartPre installs via production reflection Harmony loader
+Notification:Silenced {0} Rough Seas debug log methods. 16
+Notification:Boats now only take hit damage from axes.
+Notification:Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+Notification:Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).
+Notification:Lightning damage to animals is {0}. off
+Notification:Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+Warning:Cosmetic lifecycle guard animation-read: manager/animator context not ready; suppressed repeats=0. Will retry when ready.
+PASS no supported-install warnings
+PASS supported StartPre writes config exactly once
+PASS removed swimming config absent
+PASS no custom swimming hook methods remain
+PASS Floating namespace Current patched
+PASS Entity.ReceiveDamage patched for lightning
+PASS exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.EnteringWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.ShortWavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveImpact
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveEnergy
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTheory
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTrains
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.TransformedWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTransformation
+PASS no unrelated swimming breath wave hooks on RoughSeas.Vessels.WaveMaking
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathVerdict
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnBreath
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnSea
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnWater
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWave
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.Waves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WaveTime
+PASS no unrelated swimming breath wave hooks on RoughSeas.Soundscape.WaveCue
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WaveGeneration
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyAfloat
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Breaker
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakerPacket
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatingBody
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyPlace
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyMotion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Immersion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.IPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Carried
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Legs
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.LegsConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodySegmentConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.CarriedConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.ToolConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PartConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Worn
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Held
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Posture
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmerBreakers
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingArms
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimStroke
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimWarning
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Refusal
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.WaveRide
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+Slab
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c__DisplayClass17_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed+<>c__DisplayClass9_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c__DisplayClass1_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem+<>O
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+Kit
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c__DisplayClass15_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength+<>c__DisplayClass7_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.EntityBehaviorSeaForces+TakenWave
+PASS repeated client/server startup never duplicates patches
+PASS process-wide startup config remains once only
+PASS discovers upstream log targets
+PASS actual Harmony skips log WindModSystem
+PASS actual Harmony skips log VesselsModSystem
+PASS actual Harmony skips log WoodsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log ShoreModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log SeaWeatherSystem
+PASS actual Harmony skips log SailingModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log OtherModCompat
+PASS actual Harmony skips log CargoModSystem
+PASS finds actual hull Swing
+PASS actual hull prefix empty hand skips original safely
+PASS actual hull prefix Hammer skips original safely
+PASS actual hull prefix Pickaxe skips original safely
+PASS actual hull prefix Knife skips original safely
+PASS actual hull prefix Sword skips original safely
+PASS actual hull prefix Axe resumes original (intentional null entity sentinel)
+PASS actual config pole efficiency multiplier 1
+PASS actual config seatedpole efficiency multiplier 1
+PASS actual config paddling efficiency multiplier 8
+PASS actual config sculling efficiency multiplier 8
+PASS actual config rowing efficiency multiplier 1
+PASS power idempotent pole
+PASS power idempotent seatedpole
+PASS power idempotent paddling
+PASS power idempotent sculling
+PASS power idempotent rowing
+NEGATIVE CONTROL: removed production lightning prefix in this fresh process
+PASS config default spares animals from lightning
+System.Exception: FAIL actual lightning prefix spares animal
+   at Program.Assert(Boolean v, String name) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 53
+   at Program.TestLightning(Assembly asm, Harmony probe) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 179
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 136
+   at Program.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 65
+EXIT 1
+PASS process-local lightning negative control fails at intended assertion
+$ QRS_NEGATIVE_CONTROL=rowing /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+System.Exception: FAIL rowing lifecycle readiness
+ ---> System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at RoughSeas.Propulsion.MountStrokes.Pace_Patch2(MountStrokes this, Entity rower, Double pace)
+   at InvokeStub_MountStrokes.Pace(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at RowingChecks.Call(Object stroke, String method, Object[] args) in /home/brunette/projects/vs-animation-safety/tests/RowingProgram.cs:line 32
+   at RowingChecks.Green(Assembly upstream, Action`2 check) in /home/brunette/projects/vs-animation-safety/tests/RowingProgram.cs:line 61
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 100
+   --- End of inner exception stack trace ---
+   at Program.Run(String tag) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 100
+   at Program.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/Program.cs:line 65
+EXIT 1
+PASS process-local rowing negative control fails at intended assertion
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project Harness.csproj --no-build -- v5.0.1
+PASS runner selects exact v5.0.1 fixture
+FIXTURE v5.0.1 full upstream assembly; actual game API 1.22.7.0; Harmony 2.4.2.0
+LIMIT: headless API DispatchProxy doubles; no game world, physics tick, rendering or in-game test.
+PASS version accepts exact 5.0.1
+PASS version rejects 4.5.0
+PASS unsupported lifecycle installs no patches 4.5.0
+PASS unsupported lifecycle writes no config or power 4.5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.5.0
+PASS version rejects 4.6.0
+PASS unsupported lifecycle installs no patches 4.6.0
+PASS unsupported lifecycle writes no config or power 4.6.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 4.6.0
+PASS version rejects 5.0
+PASS unsupported lifecycle installs no patches 5.0
+PASS unsupported lifecycle writes no config or power 5.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0
+PASS version rejects 5.0.0
+PASS unsupported lifecycle installs no patches 5.0.0
+PASS unsupported lifecycle writes no config or power 5.0.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.0
+PASS version rejects 5.0.2
+PASS unsupported lifecycle installs no patches 5.0.2
+PASS unsupported lifecycle writes no config or power 5.0.2
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.2
+PASS version rejects 5.1.0
+PASS unsupported lifecycle installs no patches 5.1.0
+PASS unsupported lifecycle writes no config or power 5.1.0
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.1.0
+PASS version rejects 5.0.1-rc.1
+PASS unsupported lifecycle installs no patches 5.0.1-rc.1
+PASS unsupported lifecycle writes no config or power 5.0.1-rc.1
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1-rc.1
+PASS version rejects 5.0.1+build
+PASS unsupported lifecycle installs no patches 5.0.1+build
+PASS unsupported lifecycle writes no config or power 5.0.1+build
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1+build
+PASS version rejects v5.0.1
+PASS unsupported lifecycle installs no patches v5.0.1
+PASS unsupported lifecycle writes no config or power v5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies v5.0.1
+PASS version rejects 5.0.1 
+PASS unsupported lifecycle installs no patches 5.0.1 
+PASS unsupported lifecycle writes no config or power 5.0.1 
+PASS unsupported lifecycle preserves actual stroke efficiencies 5.0.1 
+PASS version rejects  5.0.1
+PASS unsupported lifecycle installs no patches  5.0.1
+PASS unsupported lifecycle writes no config or power  5.0.1
+PASS unsupported lifecycle preserves actual stroke efficiencies  5.0.1
+PASS version rejects 
+PASS unsupported lifecycle installs no patches 
+PASS unsupported lifecycle writes no config or power 
+PASS unsupported lifecycle preserves actual stroke efficiencies 
+PASS version rejects <null>
+PASS unsupported lifecycle installs no patches <null>
+PASS unsupported lifecycle writes no config or power <null>
+PASS unsupported lifecycle preserves actual stroke efficiencies <null>
+PASS missing Rough Seas lifecycle is inert
+PASS RED native PlayerAnimationManager NRE fp=True
+PASS RED native PlayerAnimationManager NRE fp=False
+PASS not-ready Pace/DrawnShare are safe null
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe AnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS not-ready Pace/DrawnShare are safe PlayerAnimationManager
+PASS not-ready Finish retains upstream bookkeeping
+PASS ready Pace preserves clone and speed scaling
+PASS ready DrawnShare preserves progress
+PASS ready to unloaded lifecycle is safe
+PASS animator readiness recovers without permanent disable
+PASS ready native PlayerAnimationManager preserves pace fp=True
+PASS ready native PlayerAnimationManager preserves pace fp=False
+PASS unrelated exceptions propagate unchanged
+PASS supported StartPre installs via production reflection Harmony loader
+Notification:Silenced {0} Rough Seas debug log methods. 16
+Notification:Boats now only take hit damage from axes.
+Notification:Guarded Rough Seas rowing animation reads until each manager's animator is ready.
+Notification:Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).
+Notification:Lightning damage to animals is {0}. off
+Notification:Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.
+Warning:Cosmetic lifecycle guard animation-read: manager/animator context not ready; suppressed repeats=0. Will retry when ready.
+PASS no supported-install warnings
+PASS supported StartPre writes config exactly once
+PASS removed swimming config absent
+PASS no custom swimming hook methods remain
+PASS Floating namespace Current patched
+PASS Entity.ReceiveDamage patched for lightning
+PASS exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.EnteringWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.ShortWavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveImpact
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveEnergy
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTheory
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTrains
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.TransformedWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Water.WaveTransformation
+PASS no unrelated swimming breath wave hooks on RoughSeas.Vessels.WaveMaking
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.BreathVerdict
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnBreath
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnSea
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.DrawnWater
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWaves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.PassingWave
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.Waves
+PASS no unrelated swimming breath wave hooks on RoughSeas.Storms.WaveTime
+PASS no unrelated swimming breath wave hooks on RoughSeas.Soundscape.WaveCue
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WavesConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.SeaAndWeather.WaveGeneration
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyAfloat
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyUnderSurface
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Breaker
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakerPacket
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatingBody
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyPlace
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyMotion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.FloatReading
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Immersion
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.IPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Carried
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Legs
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.LegsConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodySegmentConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.CarriedConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.ToolConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PartConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BreakingConfig
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Worn
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Held
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Posture
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmerBreakers
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingArms
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimStroke
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimWarning
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Refusal
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.WaveRide
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+Slab
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Body+<>c__DisplayClass17_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.BodyOnTheBed+<>c__DisplayClass9_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.Materials+<>c__DisplayClass1_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PersonModSystem+<>O
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+Kit
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.PlayerPerson+<>c__DisplayClass15_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Person.SwimmingStrength+<>c__DisplayClass7_0
+PASS no unrelated swimming breath wave hooks on RoughSeas.Floating.EntityBehaviorSeaForces+TakenWave
+PASS repeated client/server startup never duplicates patches
+PASS process-wide startup config remains once only
+PASS discovers upstream log targets
+PASS actual Harmony skips log WindModSystem
+PASS actual Harmony skips log VesselsModSystem
+PASS actual Harmony skips log WoodsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log StormsModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log SoundscapeModSystem
+PASS actual Harmony skips log ShoreModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log ShipyardModSystem
+PASS actual Harmony skips log SeaWeatherSystem
+PASS actual Harmony skips log SailingModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log PersonModSystem
+PASS actual Harmony skips log OtherModCompat
+PASS actual Harmony skips log CargoModSystem
+PASS finds actual hull Swing
+PASS actual hull prefix empty hand skips original safely
+PASS actual hull prefix Hammer skips original safely
+PASS actual hull prefix Pickaxe skips original safely
+PASS actual hull prefix Knife skips original safely
+PASS actual hull prefix Sword skips original safely
+PASS actual hull prefix Axe resumes original (intentional null entity sentinel)
+PASS actual config pole efficiency multiplier 1
+PASS actual config seatedpole efficiency multiplier 1
+PASS actual config paddling efficiency multiplier 8
+PASS actual config sculling efficiency multiplier 8
+PASS actual config rowing efficiency multiplier 1
+PASS power idempotent pole
+PASS power idempotent seatedpole
+PASS power idempotent paddling
+PASS power idempotent sculling
+PASS power idempotent rowing
+PASS config default spares animals from lightning
+PASS actual lightning prefix spares animal
+PASS lightning still reaches player
+PASS lightning still reaches Rough Seas vessel hull
+PASS other weather damage still reaches animal
+PASS non-weather electricity still reaches animal
+PASS LightningDamagesAnimals=true leaves lightning on animals
+PASS shared client/server stroke objects never double-scale
+TOTAL 195 assertions passed; 0 failed
+EXIT 0
+PASS production source hashes unchanged during build/execution
+AGGREGATE 195 runtime assertions passed against actual v5.0.1; 5 process-local negative controls failed as intended; 0 unexpected failures.

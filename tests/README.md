@@ -20,6 +20,7 @@ export DOTNET_ROOT=/absolute/path/to/dotnet-sdk
 
 python3 tests/setup.py
 python3 tests/run.py
+python3 tests/run-animation.py
 python3 tests/run-currents.py
 python3 tests/run-motion.py
 python3 package.py
@@ -32,6 +33,7 @@ Setup generates ignored project files and copies every upstream C#/JSON file ver
 
 ## Coverage and limits
 
+- Animation/render lifecycle: 85 assertions and 11 independent negative controls (eight patch-removal, three fixture routing/isolation); actual native client-side TP/FP manager routing with substitute client services, missing initialization/animator/FP, observer OwnOars spawn/unload/recovery, SeatPoses bookkeeping, firestarter, mod-owned exception containment, foreign exception identity, 1,000-failure log limiting, renderer incomplete-properties/despawn/disposal and item unload. `tests/animation-results.txt` contains the complete results; see `research/client-animation-render-safety.md` for boundaries and connected-client limits.
 - Core: 195 assertions, with log/hull/power/lightning/rowing patch-removal negative controls. The rowing checks first reproduce native PlayerAnimationManager NREs before installing the production Harmony loader, then exercise the lifecycle-safe calls.
 - Motion: 70 assertions and four patch-removal negative controls. Actual SeaClock/FloatingBody reproduce zero-dt NaN; actual native packet validation reproduces the exception before production installation. All position/motion components cover NaN and both infinities; snapshots are entity/dimension scoped. Actual Rough Seas SendUnlifted/RestoreLift execute, including no-snapshot rejection. Finite Afloat dispatch uses its inactive early return, not full swimming. A last-priority sentinel skips native physics and finite packet serializer bodies; no client loop or network I/O is claimed.
 - Currents/player flow: 65 assertions and 2,000 seeded projection cases, with four negative controls.

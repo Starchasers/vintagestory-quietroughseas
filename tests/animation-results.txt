@@ -1,0 +1,539 @@
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.04
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+System.Exception: FAIL DrawnShare owned missing shape finalizer
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 204
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL draw: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+System.Exception: FAIL firestarter Begin uninitialized animation manager
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Firestarter(Boolean red) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 180
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 201
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL fire: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+System.Exception: FAIL SeatPoses missing local player and uninitialized manager safe
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.SeatLifecycle(Boolean red) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 102
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 202
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL pose: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+System.Exception: FAIL OwnOars missing manager guarded
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 217
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL own: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+PASS OwnOars missing manager guarded
+PASS OwnOars missing animator guarded
+PASS OwnOars ready recovery executes upstream body
+PASS OwnOars unload skips upstream body
+PASS native PlayerAnimationManager private entity readiness fp=True
+PASS native player initialized recovery preserves pace fp=True
+PASS native PlayerAnimationManager private entity readiness fp=False
+PASS native player initialized recovery preserves pace fp=False
+System.Exception: FAIL OwnOars owned lifecycle NRE finalizer
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 234
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL own-finalizer: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+PASS OwnOars missing manager guarded
+PASS OwnOars missing animator guarded
+PASS OwnOars ready recovery executes upstream body
+PASS OwnOars unload skips upstream body
+PASS native PlayerAnimationManager private entity readiness fp=True
+PASS native player initialized recovery preserves pace fp=True
+PASS native PlayerAnimationManager private entity readiness fp=False
+PASS native player initialized recovery preserves pace fp=False
+PASS OwnOars owned lifecycle NRE finalizer
+System.Exception: FAIL Pace owned metadata NRE finalizer
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 235
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL pace: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+PASS OwnOars missing manager guarded
+PASS OwnOars missing animator guarded
+PASS OwnOars ready recovery executes upstream body
+PASS OwnOars unload skips upstream body
+PASS native PlayerAnimationManager private entity readiness fp=True
+PASS native player initialized recovery preserves pace fp=True
+PASS native PlayerAnimationManager private entity readiness fp=False
+PASS native player initialized recovery preserves pace fp=False
+PASS OwnOars owned lifecycle NRE finalizer
+PASS Pace owned metadata NRE finalizer
+PASS 1000 owned failures emit one rate-limited warning
+PASS rate limiter counts suppressed repeats
+PASS warning resumes with repeat summary after interval
+PASS owned failure recovers on same instance after data readiness
+PASS Pace preserves foreign throw-site NullReferenceException
+PASS OwnOars preserves foreign throw-site NullReferenceException
+PASS Pace preserves foreign throw-site InvalidOperationException
+PASS OwnOars preserves foreign throw-site InvalidOperationException
+PASS Pace preserves foreign throw-site IndexOutOfRangeException
+PASS OwnOars preserves foreign throw-site IndexOutOfRangeException
+PASS Pace preserves foreign throw-site ArgumentException
+PASS OwnOars preserves foreign throw-site ArgumentException
+PASS Cargo.CargoRenderer remote spawn incomplete properties skips render
+PASS Cargo.CargoRenderer despawn skips render before disposal
+PASS Cargo.CargoRenderer live callback executes upstream
+System.Exception: FAIL Cargo.CargoRenderer disposed late callback skipped
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 270
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL render: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+PASS OwnOars missing manager guarded
+PASS OwnOars missing animator guarded
+PASS OwnOars ready recovery executes upstream body
+PASS OwnOars unload skips upstream body
+PASS native PlayerAnimationManager private entity readiness fp=True
+PASS native player initialized recovery preserves pace fp=True
+PASS native PlayerAnimationManager private entity readiness fp=False
+PASS native player initialized recovery preserves pace fp=False
+PASS OwnOars owned lifecycle NRE finalizer
+PASS Pace owned metadata NRE finalizer
+PASS 1000 owned failures emit one rate-limited warning
+PASS rate limiter counts suppressed repeats
+PASS warning resumes with repeat summary after interval
+PASS owned failure recovers on same instance after data readiness
+PASS Pace preserves foreign throw-site NullReferenceException
+PASS OwnOars preserves foreign throw-site NullReferenceException
+PASS Pace preserves foreign throw-site InvalidOperationException
+PASS OwnOars preserves foreign throw-site InvalidOperationException
+PASS Pace preserves foreign throw-site IndexOutOfRangeException
+PASS OwnOars preserves foreign throw-site IndexOutOfRangeException
+PASS Pace preserves foreign throw-site ArgumentException
+PASS OwnOars preserves foreign throw-site ArgumentException
+PASS Cargo.CargoRenderer remote spawn incomplete properties skips render
+PASS Cargo.CargoRenderer despawn skips render before disposal
+PASS Cargo.CargoRenderer live callback executes upstream
+PASS Cargo.CargoRenderer disposed late callback skipped
+PASS Cargo.CargoRenderer disposed render skipped Opaque
+PASS Cargo.CargoRenderer disposed render skipped ShadowFar
+PASS Cargo.CargoRenderer disposed render skipped ShadowNear
+PASS Cargo.CargoRenderer repeated Dispose idempotent
+PASS Cargo.CargoRenderer no late GPU work
+PASS Sailing.RigRenderer remote spawn incomplete properties skips render
+PASS Sailing.RigRenderer despawn skips render before disposal
+PASS Sailing.RigRenderer live callback executes upstream
+PASS Sailing.RigRenderer disposed late callback skipped
+PASS Sailing.RigRenderer disposed render skipped Opaque
+PASS Sailing.RigRenderer disposed render skipped ShadowFar
+PASS Sailing.RigRenderer disposed render skipped ShadowNear
+PASS Sailing.RigRenderer repeated Dispose idempotent
+PASS Sailing.RigRenderer no late GPU work
+PASS Storms.BilgeRenderer remote spawn incomplete properties skips render
+PASS Storms.BilgeRenderer despawn skips render before disposal
+PASS Storms.BilgeRenderer live callback executes upstream
+PASS Storms.BilgeRenderer disposed late callback skipped
+PASS Storms.BilgeRenderer disposed render skipped Opaque
+PASS Storms.BilgeRenderer disposed render skipped ShadowFar
+PASS Storms.BilgeRenderer disposed render skipped ShadowNear
+PASS Storms.BilgeRenderer repeated Dispose idempotent
+PASS Storms.BilgeRenderer no late GPU work
+PASS Shipyard.CollectibleBehaviorIcon unloaded render safe
+PASS Shipyard.CollectibleBehaviorIcon unloaded render skipped
+PASS Shipyard.CollectibleBehaviorIcon unload prevents reupload
+System.Exception: FAIL Shipyard.CollectibleBehaviorCarriedBuild unloaded render safe
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 282
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL unload: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+System.Exception: FAIL independent TP and selected FP pace row-fp
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.ClientManagers() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 165
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 203
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL fp-pace: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+System.Exception: FAIL native TP row and FP lookup routing row-fp
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.ClientManagers() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 164
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 203
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL routing-fp: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+System.Exception: FAIL native TP row and FP lookup routing row-ifp
+   at AnimationProgram.Check(Boolean value, String name) in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 25
+   at AnimationProgram.ClientManagers() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 164
+   at AnimationProgram.Green() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 203
+   at AnimationProgram.Run() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 311
+   at AnimationProgram.Main() in /home/brunette/projects/vs-animation-safety/tests/AnimationProgram.cs:line 315
+CONTROL routing-ifp: intended runtime failure verified
+FIXTURE exact setup.py v5.0.1; native VSSurvivalMod, Version=1.22.7.0, Culture=neutral, PublicKeyToken=null; Harmony 0Harmony, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null
+LIMIT headless DispatchProxy client services; no GPU, world, network or in-game validation.
+PASS RED firestarter Begin uninitialized animation manager
+PASS RED firestarter End uninitialized animation manager
+PASS RED SeatPoses local-player unload reproduces NRE
+PASS RED DrawnShare shape animation absent
+PASS RED OwnOars missing vessel manager reproduces native NRE
+PASS RED Pace missing running metadata reproduces Rough Seas NRE
+PASS RED disposed Cargo.Show still uploads without protection
+PASS RED native player manager entity not initialized fp=True
+PASS RED native player manager entity not initialized fp=False
+PASS production StartPre installs animation safety
+PASS firestarter Begin uninitialized animation manager
+PASS firestarter End uninitialized animation manager
+PASS SeatPoses missing local player and uninitialized manager safe
+PASS SeatPoses preserves configuration bookkeeping while manager unavailable
+PASS native client-manager fixture binds local entity getter (not a client loop)
+PASS TP FP and immersive FP running metadata are independent
+PASS local TP remains live while FP animator missing
+PASS missing FP queries only ready TP row
+PASS native TP row and FP lookup routing row-fp
+PASS independent TP and selected FP pace row-fp
+PASS Pace preserves source metadata row-fp
+PASS FP unload preserves TP and frozen variant row-fp
+PASS native TP row and FP lookup routing row-ifp
+PASS independent TP and selected FP pace row-ifp
+PASS Pace preserves source metadata row-ifp
+PASS FP unload preserves TP and frozen variant row-ifp
+PASS DrawnShare unavailable shape returns null
+PASS DrawnShare owned missing shape finalizer
+PASS valid own-oar Match preserves rower frame synchronization
+PASS valid own-oar Stop preserves native stop bookkeeping
+PASS OwnOars missing manager guarded
+PASS OwnOars missing animator guarded
+PASS OwnOars ready recovery executes upstream body
+PASS OwnOars unload skips upstream body
+PASS native PlayerAnimationManager private entity readiness fp=True
+PASS native player initialized recovery preserves pace fp=True
+PASS native PlayerAnimationManager private entity readiness fp=False
+PASS native player initialized recovery preserves pace fp=False
+PASS OwnOars owned lifecycle NRE finalizer
+PASS Pace owned metadata NRE finalizer
+PASS 1000 owned failures emit one rate-limited warning
+PASS rate limiter counts suppressed repeats
+PASS warning resumes with repeat summary after interval
+PASS owned failure recovers on same instance after data readiness
+PASS Pace preserves foreign throw-site NullReferenceException
+PASS OwnOars preserves foreign throw-site NullReferenceException
+PASS Pace preserves foreign throw-site InvalidOperationException
+PASS OwnOars preserves foreign throw-site InvalidOperationException
+PASS Pace preserves foreign throw-site IndexOutOfRangeException
+PASS OwnOars preserves foreign throw-site IndexOutOfRangeException
+PASS Pace preserves foreign throw-site ArgumentException
+PASS OwnOars preserves foreign throw-site ArgumentException
+PASS Cargo.CargoRenderer remote spawn incomplete properties skips render
+PASS Cargo.CargoRenderer despawn skips render before disposal
+PASS Cargo.CargoRenderer live callback executes upstream
+PASS Cargo.CargoRenderer disposed late callback skipped
+PASS Cargo.CargoRenderer disposed render skipped Opaque
+PASS Cargo.CargoRenderer disposed render skipped ShadowFar
+PASS Cargo.CargoRenderer disposed render skipped ShadowNear
+PASS Cargo.CargoRenderer repeated Dispose idempotent
+PASS Cargo.CargoRenderer no late GPU work
+PASS Sailing.RigRenderer remote spawn incomplete properties skips render
+PASS Sailing.RigRenderer despawn skips render before disposal
+PASS Sailing.RigRenderer live callback executes upstream
+PASS Sailing.RigRenderer disposed late callback skipped
+PASS Sailing.RigRenderer disposed render skipped Opaque
+PASS Sailing.RigRenderer disposed render skipped ShadowFar
+PASS Sailing.RigRenderer disposed render skipped ShadowNear
+PASS Sailing.RigRenderer repeated Dispose idempotent
+PASS Sailing.RigRenderer no late GPU work
+PASS Storms.BilgeRenderer remote spawn incomplete properties skips render
+PASS Storms.BilgeRenderer despawn skips render before disposal
+PASS Storms.BilgeRenderer live callback executes upstream
+PASS Storms.BilgeRenderer disposed late callback skipped
+PASS Storms.BilgeRenderer disposed render skipped Opaque
+PASS Storms.BilgeRenderer disposed render skipped ShadowFar
+PASS Storms.BilgeRenderer disposed render skipped ShadowNear
+PASS Storms.BilgeRenderer repeated Dispose idempotent
+PASS Storms.BilgeRenderer no late GPU work
+PASS Shipyard.CollectibleBehaviorIcon unloaded render safe
+PASS Shipyard.CollectibleBehaviorIcon unloaded render skipped
+PASS Shipyard.CollectibleBehaviorIcon unload prevents reupload
+PASS Shipyard.CollectibleBehaviorCarriedBuild unloaded render safe
+PASS Shipyard.CollectibleBehaviorCarriedBuild unloaded render skipped
+PASS Shipyard.CollectibleBehaviorCarriedBuild unload prevents reupload
+TOTAL 85 assertions passed; 0 failed
+AGGREGATE 85 assertions; 11 independent negative controls (8 patch removal, 3 fixture routing/isolation); production sources unchanged.

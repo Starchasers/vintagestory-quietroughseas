@@ -1,0 +1,196 @@
+HEADLESS CURRENT REGRESSION: actual upstream RS Current methods + actual Rivers 5.0.3 binary.
+LIMITATIONS: no full game, rendering, network or tick-loop simulation; mock world/chunk interfaces; RS SeaWeatherSystem.CurrentAt sampling boundary replaced with deterministic fixture. Actual private RS Current and actual Rivers nested Postfix are not substituted. Vanilla DoApply and Rivers boat registrations unchanged; actual Rivers prefix + real vanilla DoApply exercised for player-current opt-out.
+SOURCE SHA256:
+{
+  "src/AnimationSafety.cs": "28e82f786db28b928b4dd5c4e951fde8c9c48fd88a44118758e31e981aa6c462",
+  "src/HelpfulCurrents.cs": "efabe157767428a4c8ed32324a8fdfd08f5abd6ea4d7ee0769c18a9f4b403763",
+  "src/Lightning.cs": "222e80429dfe61b4d693801fd0b9e2ad24ee19d08f3fb8bb9f118dbd501340c2",
+  "src/PlayerMotion.cs": "2c1561da8b0f02bdbc338eabd3078711cb5b43235e709e5dd47bb1401d182174",
+  "src/QuietRoughSeas.cs": "4b97db8301a8869626ba3d1815c25ce80022a98fcb3566b564d16e086175ee4e",
+  "src/RiverPlayers.cs": "018ac84d4c707ab1c9592c6df643d4f0d5c9d2e276679504a23456a1a275f0e8",
+  "src/RowingAnimations.cs": "6abc2e198b54a3b6982ebfe07da2272e896a9b0d1f69147447b01187821980ac",
+  "src/Swimming.cs": "fc9bcde4f1545d01ff9d6e91a2d78bb748a0dcc1ab99159fbf98be9a9e2cf101"
+}
+Rivers.dll SHA256: 3ee453044fc90fcb5c5048ad8a656bd796ecce7c75a2c8d87fb2407a9c0f2472
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build fixtures/v5.0.1/Upstream.csproj -v:q
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.92
+EXIT 0
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build CurrentHarness.csproj -v:q
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.03
+EXIT 0
+$ QRS_CURRENT_NEGATIVE=river-prefix /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project CurrentHarness.csproj --no-build -- v5.0.1
+Headless currents v5.0.1; actual RS private Current and Rivers 5.0.3 binary (assembly 1.0.0.0) nested Postfix(EntityBoat); world/chunk interface mocks; sea sampling boundary mocked.
+PASS RS actual Current along/downstream
+PASS Rivers actual Postfix along/downstream preserves propulsion/vertical
+PASS RS actual Current opposed
+System.Exception: FAIL Rivers actual Postfix opposed preserves propulsion/vertical
+   at CurrentProgram.Check(Boolean b, String n) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 27
+   at CurrentProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 75
+   at CurrentProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 34
+EXIT 1
+PASS negative control v5.0.1 river-prefix fails intended behavioral assertion
+$ QRS_CURRENT_NEGATIVE=river-postfix /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project CurrentHarness.csproj --no-build -- v5.0.1
+Headless currents v5.0.1; actual RS private Current and Rivers 5.0.3 binary (assembly 1.0.0.0) nested Postfix(EntityBoat); world/chunk interface mocks; sea sampling boundary mocked.
+PASS RS actual Current along/downstream
+PASS Rivers actual Postfix along/downstream preserves propulsion/vertical
+PASS RS actual Current opposed
+System.Exception: FAIL Rivers actual Postfix opposed preserves propulsion/vertical
+   at CurrentProgram.Check(Boolean b, String n) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 27
+   at CurrentProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 75
+   at CurrentProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 34
+EXIT 1
+PASS negative control v5.0.1 river-postfix fails intended behavioral assertion
+$ QRS_CURRENT_NEGATIVE=rs-postfix /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project CurrentHarness.csproj --no-build -- v5.0.1
+Headless currents v5.0.1; actual RS private Current and Rivers 5.0.3 binary (assembly 1.0.0.0) nested Postfix(EntityBoat); world/chunk interface mocks; sea sampling boundary mocked.
+PASS RS actual Current along/downstream
+PASS Rivers actual Postfix along/downstream preserves propulsion/vertical
+System.Exception: FAIL RS actual Current opposed
+   at CurrentProgram.Check(Boolean b, String n) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 27
+   at CurrentProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 75
+   at CurrentProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 34
+EXIT 1
+PASS negative control v5.0.1 rs-postfix fails intended behavioral assertion
+$ QRS_CURRENT_NEGATIVE=player-prefix /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project CurrentHarness.csproj --no-build -- v5.0.1
+Headless currents v5.0.1; actual RS private Current and Rivers 5.0.3 binary (assembly 1.0.0.0) nested Postfix(EntityBoat); world/chunk interface mocks; sea sampling boundary mocked.
+PASS RS actual Current along/downstream
+PASS Rivers actual Postfix along/downstream preserves propulsion/vertical
+PASS RS actual Current opposed
+PASS Rivers actual Postfix opposed preserves propulsion/vertical
+PASS RS actual Current lateral
+PASS Rivers actual Postfix lateral preserves propulsion/vertical
+PASS RS actual Current helpful diagonal
+PASS Rivers actual Postfix helpful diagonal preserves propulsion/vertical
+PASS RS actual Current opposed diagonal
+PASS Rivers actual Postfix opposed diagonal preserves propulsion/vertical
+PASS RS actual Current yaw quarter turn
+PASS Rivers actual Postfix yaw quarter turn preserves propulsion/vertical
+PASS RS actual Current reverse
+PASS Rivers actual Postfix reverse preserves propulsion/vertical
+PASS RS actual Current rotated reverse
+PASS Rivers actual Postfix rotated reverse preserves propulsion/vertical
+PASS RS actual Current idle
+PASS Rivers actual Postfix idle preserves propulsion/vertical
+PASS RS actual Current zero current
+PASS Rivers actual Postfix zero current preserves propulsion/vertical
+PASS composite RS HullSet then actual Rivers along/downstream reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers along/downstream reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers lateral reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers lateral reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers helpful diagonal reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers helpful diagonal reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed diagonal reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed diagonal reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers yaw quarter turn reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers yaw quarter turn reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers reverse reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers reverse reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers rotated reverse reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers rotated reverse reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers idle reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers idle reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers zero current reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers zero current reset cycle 1 exactly one contribution each
+PASS toggle true retains actual RS hindering/lateral current
+PASS toggle true retains actual Rivers delta and initial motion
+PASS heading rather than existing drift controls actual Rivers projection
+PASS heading/drift independence actual RS Current
+PASS RS original Current world toggle executes before postfix
+PASS Rivers missing chunk no-op
+PASS actual Rivers world -> GetChunk -> GetModdata<float[]> flow path executed
+PASS Rivers actual swimmer physics patch list unchanged
+PASS Rivers existing boat patch registration untouched
+PASS actual Rivers target argument named __instance; runtime Harmony __0 injection and __state round-trip validated
+PASS RS actual Current registered non-EntityBoat copy uses reflected reverse ForwardSpeed
+PASS pure projection zero heading rejected
+PASS pure projection nonfinite current/heading rejected
+PASS pure projection nonunit heading normalized
+PASS 2000 seeded pure projection cases: independent oracle, nonnegative along, no lateral, norm nonincrease, idempotence
+System.Exception: FAIL player currents false skips only actual Rivers body and returns vanilla continuation true dt=0.01
+   at CurrentProgram.Check(Boolean b, String n) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 27
+   at CurrentProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 117
+   at CurrentProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/CurrentProgram.cs:line 34
+EXIT 1
+PASS negative control v5.0.1 player-prefix fails intended behavioral assertion
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project CurrentHarness.csproj --no-build -- v5.0.1
+Headless currents v5.0.1; actual RS private Current and Rivers 5.0.3 binary (assembly 1.0.0.0) nested Postfix(EntityBoat); world/chunk interface mocks; sea sampling boundary mocked.
+PASS reflection HelpfulCurrents -> Apply installs actual RS postfix
+PASS reflection Apply installs Rivers capture prefix and filter postfix
+PASS RS actual Current along/downstream
+PASS Rivers actual Postfix along/downstream preserves propulsion/vertical
+PASS RS actual Current opposed
+PASS Rivers actual Postfix opposed preserves propulsion/vertical
+PASS RS actual Current lateral
+PASS Rivers actual Postfix lateral preserves propulsion/vertical
+PASS RS actual Current helpful diagonal
+PASS Rivers actual Postfix helpful diagonal preserves propulsion/vertical
+PASS RS actual Current opposed diagonal
+PASS Rivers actual Postfix opposed diagonal preserves propulsion/vertical
+PASS RS actual Current yaw quarter turn
+PASS Rivers actual Postfix yaw quarter turn preserves propulsion/vertical
+PASS RS actual Current reverse
+PASS Rivers actual Postfix reverse preserves propulsion/vertical
+PASS RS actual Current rotated reverse
+PASS Rivers actual Postfix rotated reverse preserves propulsion/vertical
+PASS RS actual Current idle
+PASS Rivers actual Postfix idle preserves propulsion/vertical
+PASS RS actual Current zero current
+PASS Rivers actual Postfix zero current preserves propulsion/vertical
+PASS composite RS HullSet then actual Rivers along/downstream reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers along/downstream reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers lateral reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers lateral reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers helpful diagonal reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers helpful diagonal reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed diagonal reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers opposed diagonal reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers yaw quarter turn reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers yaw quarter turn reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers reverse reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers reverse reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers rotated reverse reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers rotated reverse reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers idle reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers idle reset cycle 1 exactly one contribution each
+PASS composite RS HullSet then actual Rivers zero current reset cycle 0 exactly one contribution each
+PASS composite RS HullSet then actual Rivers zero current reset cycle 1 exactly one contribution each
+PASS toggle true retains actual RS hindering/lateral current
+PASS toggle true retains actual Rivers delta and initial motion
+PASS heading rather than existing drift controls actual Rivers projection
+PASS heading/drift independence actual RS Current
+PASS RS original Current world toggle executes before postfix
+PASS Rivers missing chunk no-op
+PASS actual Rivers world -> GetChunk -> GetModdata<float[]> flow path executed
+PASS Rivers actual swimmer physics patch list unchanged
+PASS Rivers existing boat patch registration untouched
+PASS actual Rivers target argument named __instance; runtime Harmony __0 injection and __state round-trip validated
+PASS RS actual Current registered non-EntityBoat copy uses reflected reverse ForwardSpeed
+PASS pure projection zero heading rejected
+PASS pure projection nonfinite current/heading rejected
+PASS pure projection nonunit heading normalized
+PASS 2000 seeded pure projection cases: independent oracle, nonnegative along, no lateral, norm nonincrease, idempotence
+PASS player currents false skips only actual Rivers body and returns vanilla continuation true dt=0.01
+PASS real vanilla DoApply still runs once with unchanged position dt=0.01
+PASS player currents false skips only actual Rivers body and returns vanilla continuation true dt=0.04
+PASS real vanilla DoApply still runs once with unchanged position dt=0.04
+PASS player currents true retains actual Rivers original delta
+PASS true mode preserves actual dt scaling and shift modifier
+PASS nonplayers preserve actual Rivers prefix no-op
+PASS player option preserves vanilla target and boat patch registrations
+TOTAL 65 assertions passed; 0 failed; 2000 randomized cases.
+EXIT 0
+PASS production source hashes unchanged during builds/execution
+AGGREGATE 65 runtime assertions passed across 1 actual upstream tag; 2000 seeded projection cases; 4 deliberate patch-removal negative controls failed as intended; 0 unexpected failures.

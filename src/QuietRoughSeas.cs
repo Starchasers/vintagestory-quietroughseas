@@ -108,6 +108,7 @@ namespace QuietRoughSeas
                 LoadConfig(api);
 
                 InstallRowingAnimations(types);
+                InstallAnimationSafety(types);
                 InstallCurrents(api, types);
                 InstallRiverPlayers(api);
                 InstallLightning();
