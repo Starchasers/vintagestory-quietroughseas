@@ -16,12 +16,12 @@ from support import dependency, dotnet_root
 repo = Path(__file__).resolve().parent.parent
 game = dependency('VINTAGE_STORY_DIR', 'VintagestoryServer.dll')
 rough = dependency('ROUGH_SEAS_ZIP')
-addon = repo / 'dist/quietroughseas_1.8.1.zip'
+addon = repo / 'dist/quietroughseas_1.8.3.zip'
 assert addon.is_file(), 'Run python package.py first'
 root = Path(tempfile.mkdtemp(prefix='qrs-native-', dir=os.environ.get('TMPDIR')))
 (root / 'Mods').mkdir()
 shutil.copyfile(rough, root / 'Mods/roughseas_5.0.1.zip')
-shutil.copyfile(addon, root / 'Mods/quietroughseas_1.8.1.zip')
+shutil.copyfile(addon, root / 'Mods/quietroughseas_1.8.3.zip')
 with socket.socket() as probe:
     probe.bind(('127.0.0.1', 0))
     port = probe.getsockname()[1]
@@ -66,8 +66,10 @@ for line in lines:
     if '[quietroughseas]' in line or 'Dedicated Server now running' in line or 'All threads gracefully shut down' in line:
         print(line.rstrip())
 assert ready and p.returncode == 0, ('Native startup/clean exit failed', p.returncode, root)
-assert '[quietroughseas] Successfully compiled 6 source files' in text
+assert f'[quietroughseas] Successfully compiled {len(list((repo / "src").glob("*.cs")))} source files' in text
 assert 'Guarded Rough Seas rowing animation reads' in text
+assert 'Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).' in text
+assert 'Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.' in text
 assert '[quietroughseas] Could not' not in text
 assert '[Server Error]' not in text
 with socket.socket() as probe:

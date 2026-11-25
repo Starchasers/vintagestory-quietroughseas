@@ -100,7 +100,7 @@ class Program {
   try { RowingChecks.Green(asm,Assert); } catch(Exception e) { throw new Exception("FAIL rowing lifecycle readiness",e); }
   Assert((bool)Get(Q,"patched"),"supported StartPre installs via production reflection Harmony loader");
   if(state.Logs.Any(l=>l.StartsWith("Warning:"))) Console.WriteLine(string.Join("\n",state.Logs));
-  Assert(!state.Logs.Any(l=>l.StartsWith("Warning:")),"no supported-install warnings");
+  Assert(!state.Logs.Any(l=>l.StartsWith("Warning:")&&!l.StartsWith("Warning:Cosmetic lifecycle guard ")),"no supported-install warnings");
   Assert(state.Count("StoreModConfig")==1,"supported StartPre writes config exactly once");
   Assert(typeof(QuietRoughSeasConfig).GetField("DisableRealisticSwimming")==null,"removed swimming config absent");
   Assert(!Q.GetMethods(Any).Any(m=>m.Name=="InstallSwimming"||m.Name=="AllowPersonAttachment"||m.Name=="SwimmingTargets"),"no custom swimming hook methods remain");
@@ -111,11 +111,14 @@ class Program {
   Assert(OwnPatch(current),"Floating namespace Current patched");
   Assert(OwnPatch(ReceiveDamage),"Entity.ReceiveDamage patched for lightning");
   var rowing=asm.GetType("RoughSeas.Propulsion.MountStrokes").GetMethods(Any).Where(m=>new[]{"Pace","DrawnShare","Finish"}.Contains(m.Name));
-  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).Concat(rowing).ToHashSet();
+  var motion=new MethodBase[]{Method(asm.GetType("RoughSeas.Person.BodyAfloat"),"Afloat"),Method(asm.GetType("RoughSeas.Floating.VesselMotion"),"Lift"),Method(typeof(Vintagestory.GameContent.EntityBehaviorPlayerPhysics),"OnPhysicsTick"),Method(Type.GetType("Vintagestory.Client.NoObf.NetworkAPI, VintagestoryLib",true),"SendPlayerPositionPacket")};
+  var cosmetics = new List<MethodBase>();
+  foreach(var spec in new[]{"Propulsion.MountStrokes:Show", "Vessels.OwnOars:Follow,Match,Stop", "Vessels.SeatPoses:Show", "Shipyard.CollectibleBehaviorLightWithFirestarter:Begin,End", "Shipyard.EntityBehaviorBurnout:Chip", "Cargo.CargoRenderer:Show,OnRenderFrame,Dispose", "Sailing.RigRenderer:Shaped,OnRenderFrame,Dispose", "Storms.BilgeRenderer:Show,OnRenderFrame,Dispose", "Shipyard.CollectibleBehaviorIcon:OnBeforeRender,OnUnloaded", "Shipyard.CollectibleBehaviorCarriedBuild:OnBeforeRender,OnUnloaded"}) { var pair=spec.Split(':'); foreach(var name in pair[1].Split(',')) cosmetics.Add(Method(asm.GetType("RoughSeas."+pair[0]),name)); }
+  var allowed=logs.Cast<MethodBase>().Concat(swings).Append(current).Append(ReceiveDamage).Concat(rowing).Concat(motion).Concat(cosmetics).ToHashSet();
   var patched=Harmony.GetAllPatchedMethods().Where(OwnPatch).ToArray();
-  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: logs hull boat Current lightning and three rowing methods only; no global animation patches");
+  Assert(patched.Length==allowed.Count&&patched.All(allowed.Contains),"exact patch allowlist: existing compatibility plus four finite-motion boundaries; no global animation patches");
   foreach(var t in types.Where(t=>t.Namespace=="RoughSeas.Person"||t.Name.Contains("Breath")||t.Name.Contains("Wave")||t.Name=="DrawnWater"||t.Name=="DrawnSea"))
-   Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&OwnPatch(m)),"no swimming breath wave hooks on "+t.FullName);
+   Assert(!t.GetMethods(Any|BindingFlags.DeclaredOnly).Any(m=>m.Name!="Log"&&!(t.FullName=="RoughSeas.Person.BodyAfloat"&&m.Name=="Afloat")&&OwnPatch(m)),"no unrelated swimming breath wave hooks on "+t.FullName);
   var counts=patched.ToDictionary(m=>m,m=>Harmony.GetPatchInfo(m).Prefixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Postfixes.Count(p=>p.owner=="quietroughseas")+Harmony.GetPatchInfo(m).Transpilers.Count(p=>p.owner=="quietroughseas"));
   quiet.StartPre(api);
   var serverState=new State{Side=EnumAppSide.Server,Target=state.Target};

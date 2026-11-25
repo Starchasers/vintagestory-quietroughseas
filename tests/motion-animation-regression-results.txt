@@ -1,0 +1,292 @@
+HEADLESS MOTION: real Rough Seas v5.0.1 equations, real native packet NaN validation, production StartPre Harmony registration.
+LIMITATIONS: no game/render/tick-loop/network I/O. Mock API/sea; ClientMain player getter fixture; native physics body and finite serializer body skipped by last-priority sentinels. Lift return injected at its actual patched method boundary; real Rough Seas SendUnlifted/RestoreLift methods execute.
+SOURCE SHA256: {"src/AnimationSafety.cs": "28e82f786db28b928b4dd5c4e951fde8c9c48fd88a44118758e31e981aa6c462", "src/HelpfulCurrents.cs": "efabe157767428a4c8ed32324a8fdfd08f5abd6ea4d7ee0769c18a9f4b403763", "src/Lightning.cs": "222e80429dfe61b4d693801fd0b9e2ad24ee19d08f3fb8bb9f118dbd501340c2", "src/PlayerMotion.cs": "2c1561da8b0f02bdbc338eabd3078711cb5b43235e709e5dd47bb1401d182174", "src/QuietRoughSeas.cs": "4b97db8301a8869626ba3d1815c25ce80022a98fcb3566b564d16e086175ee4e", "src/RiverPlayers.cs": "018ac84d4c707ab1c9592c6df643d4f0d5c9d2e276679504a23456a1a275f0e8", "src/RowingAnimations.cs": "6abc2e198b54a3b6982ebfe07da2272e896a9b0d1f69147447b01187821980ac", "src/Swimming.cs": "fc9bcde4f1545d01ff9d6e91a2d78bb748a0dcc1ab99159fbf98be9a9e2cf101"}
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build fixtures/v5.0.1/Upstream.csproj -v:q -p:WarningLevel=0
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.86
+EXIT 0
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet build MotionHarness.csproj -v:q -p:WarningLevel=0
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.98
+EXIT 0
+$ QRS_MOTION_NEGATIVE=dt /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project MotionHarness.csproj --no-build
+SDK 1.22.7.0; upstream 1.0.0.0
+PASS RED actual SeaClock SecondsIn(0,60)/0 is NaN
+PASS RED actual FloatingBody zero-dt NaN rate contaminates horizontal motion
+PASS actual FloatingBody finite-dt horizontal motion remains finite
+NATIVE Position is not a number
+PASS RED actual native packet rejects NaN position
+NATIVE Motion is not a number
+PASS RED actual native packet rejects NaN motion
+PASS StartPre registers BodyAfloat.Afloat
+PASS StartPre registers VesselMotion.Lift
+PASS StartPre registers NetworkAPI.SendPlayerPositionPacket
+PASS StartPre registers EntityBehaviorPlayerPhysics.OnPhysicsTick
+System.Exception: FAIL invalid dt guard 0
+   at MotionProgram.Check(Boolean b, String s) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 26
+   at MotionProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 69
+   at MotionProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 34
+EXIT 1
+PASS negative control dt fails intended behavioral assertion
+$ QRS_MOTION_NEGATIVE=lift /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project MotionHarness.csproj --no-build
+SDK 1.22.7.0; upstream 1.0.0.0
+PASS RED actual SeaClock SecondsIn(0,60)/0 is NaN
+PASS RED actual FloatingBody zero-dt NaN rate contaminates horizontal motion
+PASS actual FloatingBody finite-dt horizontal motion remains finite
+NATIVE Position is not a number
+PASS RED actual native packet rejects NaN position
+NATIVE Motion is not a number
+PASS RED actual native packet rejects NaN motion
+PASS StartPre registers BodyAfloat.Afloat
+PASS StartPre registers VesselMotion.Lift
+PASS StartPre registers NetworkAPI.SendPlayerPositionPacket
+PASS StartPre registers EntityBehaviorPlayerPhysics.OnPhysicsTick
+PASS invalid dt guard 0
+PASS invalid dt guard -1
+PASS invalid dt guard NaN
+PASS invalid dt guard ∞
+PASS invalid dt guard -∞
+PASS finite dt preserves upstream early-return dispatch
+PASS Lift normalization 0
+PASS Lift normalization 2.5
+PASS Lift normalization -3
+System.Exception: FAIL Lift normalization NaN
+   at MotionProgram.Check(Boolean b, String s) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 26
+   at MotionProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 71
+   at MotionProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 34
+EXIT 1
+PASS negative control lift fails intended behavioral assertion
+$ QRS_MOTION_NEGATIVE=packet /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project MotionHarness.csproj --no-build
+SDK 1.22.7.0; upstream 1.0.0.0
+PASS RED actual SeaClock SecondsIn(0,60)/0 is NaN
+PASS RED actual FloatingBody zero-dt NaN rate contaminates horizontal motion
+PASS actual FloatingBody finite-dt horizontal motion remains finite
+NATIVE Position is not a number
+PASS RED actual native packet rejects NaN position
+NATIVE Motion is not a number
+PASS RED actual native packet rejects NaN motion
+PASS StartPre registers BodyAfloat.Afloat
+PASS StartPre registers VesselMotion.Lift
+PASS StartPre registers NetworkAPI.SendPlayerPositionPacket
+PASS StartPre registers EntityBehaviorPlayerPhysics.OnPhysicsTick
+PASS invalid dt guard 0
+PASS invalid dt guard -1
+PASS invalid dt guard NaN
+PASS invalid dt guard ∞
+PASS invalid dt guard -∞
+PASS finite dt preserves upstream early-return dispatch
+PASS Lift normalization 0
+PASS Lift normalization 2.5
+PASS Lift normalization -3
+PASS Lift normalization NaN
+PASS Lift normalization ∞
+PASS Lift normalization -∞
+PASS foreign Lift exception unchanged
+NATIVE Position is not a number
+System.Exception: FAIL no-snapshot invalid packet skips native NaN validator
+   at MotionProgram.Check(Boolean b, String s) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 26
+   at MotionProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 73
+   at MotionProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 34
+EXIT 1
+PASS negative control packet fails intended behavioral assertion
+$ QRS_MOTION_NEGATIVE=snapshot /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project MotionHarness.csproj --no-build
+SDK 1.22.7.0; upstream 1.0.0.0
+PASS RED actual SeaClock SecondsIn(0,60)/0 is NaN
+PASS RED actual FloatingBody zero-dt NaN rate contaminates horizontal motion
+PASS actual FloatingBody finite-dt horizontal motion remains finite
+NATIVE Position is not a number
+PASS RED actual native packet rejects NaN position
+NATIVE Motion is not a number
+PASS RED actual native packet rejects NaN motion
+PASS StartPre registers BodyAfloat.Afloat
+PASS StartPre registers VesselMotion.Lift
+PASS StartPre registers NetworkAPI.SendPlayerPositionPacket
+PASS StartPre registers EntityBehaviorPlayerPhysics.OnPhysicsTick
+PASS invalid dt guard 0
+PASS invalid dt guard -1
+PASS invalid dt guard NaN
+PASS invalid dt guard ∞
+PASS invalid dt guard -∞
+PASS finite dt preserves upstream early-return dispatch
+PASS Lift normalization 0
+PASS Lift normalization 2.5
+PASS Lift normalization -3
+PASS Lift normalization NaN
+PASS Lift normalization ∞
+PASS Lift normalization -∞
+PASS foreign Lift exception unchanged
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no-snapshot invalid packet skips native NaN validator
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z -∞
+PASS packet guard precedes Rough Seas mutation
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no-snapshot rejection preserves Y with actual Rough Seas packet patches
+PASS finite packet behavior preserves actual Rough Seas unlift/restore
+PASS packet finite snapshot recovery
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+System.Exception: FAIL physics finite snapshot recovery
+   at MotionProgram.Check(Boolean b, String s) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 26
+   at MotionProgram.Run(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 88
+   at MotionProgram.Main(String[] args) in /home/brunette/projects/vs-animation-safety/tests/MotionProgram.cs:line 34
+EXIT 1
+PASS negative control snapshot fails intended behavioral assertion
+$ /home/brunette/.hermes/cache/scratch/motion-dotnet/dotnet run --project MotionHarness.csproj --no-build
+SDK 1.22.7.0; upstream 1.0.0.0
+PASS RED actual SeaClock SecondsIn(0,60)/0 is NaN
+PASS RED actual FloatingBody zero-dt NaN rate contaminates horizontal motion
+PASS actual FloatingBody finite-dt horizontal motion remains finite
+NATIVE Position is not a number
+PASS RED actual native packet rejects NaN position
+NATIVE Motion is not a number
+PASS RED actual native packet rejects NaN motion
+PASS StartPre registers BodyAfloat.Afloat
+PASS StartPre registers VesselMotion.Lift
+PASS StartPre registers NetworkAPI.SendPlayerPositionPacket
+PASS StartPre registers EntityBehaviorPlayerPhysics.OnPhysicsTick
+PASS invalid dt guard 0
+PASS invalid dt guard -1
+PASS invalid dt guard NaN
+PASS invalid dt guard ∞
+PASS invalid dt guard -∞
+PASS finite dt preserves upstream early-return dispatch
+PASS Lift normalization 0
+PASS Lift normalization 2.5
+PASS Lift normalization -3
+PASS Lift normalization NaN
+PASS Lift normalization ∞
+PASS Lift normalization -∞
+PASS foreign Lift exception unchanged
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no-snapshot invalid packet skips native NaN validator
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Z -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no snapshot skips Motion.Z -∞
+PASS packet guard precedes Rough Seas mutation
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS no-snapshot rejection preserves Y with actual Rough Seas packet patches
+PASS finite packet behavior preserves actual Rough Seas unlift/restore
+PASS packet finite snapshot recovery
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS physics finite snapshot recovery
+PASS cross-dimension snapshot never restored
+PASS dimension transition invalidates old sample even on return
+PASS foreign packet exception unchanged
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Z -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.X NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.X ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.X -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Y NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Y ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Y -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Z NaN
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Z ∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS snapshot restores all components after invalid tick Motion.Z -∞
+LOG Rejected non-finite player position/motion before sending a packet; {0}. This is containment, not identification of the corrupting mod.
+PASS same entity ID on replacement object cannot reuse snapshot
+PASS changed entity ID on reused object invalidates sample
+PASS returning entity ID cannot resurrect invalidated sample
+TOTAL 70 assertions passed; 0 failed
+EXIT 0
+AGGREGATE 70 runtime assertions passed; 4 deliberate patch-removal controls failed as intended; 0 unexpected failures; production source unchanged.

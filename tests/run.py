@@ -31,7 +31,7 @@ with (ROOT / 'results.txt').open('w') as out:
         if p.returncode != expected:
             raise SystemExit(f'Expected exit {expected}, got {p.returncode}')
         return p.stdout
-    record('Exact Rough Seas 5.0.1 / Quiet Rough Seas 1.8.1 headless regression; no in-game tests claimed.\n')
+    record('Exact Rough Seas 5.0.1 / Quiet Rough Seas 1.8.3 headless regression; no in-game tests claimed.\n')
     record('Production source SHA256 at execution:\n' + json.dumps(source_hashes, indent=2) + '\n')
     tracked = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', tag, 'RoughSeas'], cwd=REPO, text=True).splitlines()
     expected_files = {p for p in tracked if p.endswith(('.cs', '.json'))}
