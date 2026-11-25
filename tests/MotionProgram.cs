@@ -56,6 +56,7 @@ class MotionProgram {
  bool NativeThrows(){try{send.Invoke(net,null);return false;}catch(TargetInvocationException e){Console.WriteLine("NATIVE "+e.InnerException.Message);return e.InnerException.Message.Contains("not a number");}}
  Check(NativeThrows(),"RED actual native packet rejects NaN position");
  player.Pos.X=0;player.Pos.Motion.X=double.NaN;Check(NativeThrows(),"RED actual native packet rejects NaN motion");player.Pos.Motion.X=0;player.Pos.X=double.NaN;
+ MountChecks.Red(net,Check);
  // Install every production patch through the real lifecycle, with headless API interfaces.
  object Proxy(Type t)=>MotionProxy.Make(t,(m,v)=>m.ReturnType.IsInterface?Proxy(m.ReturnType):MotionProxy.Default(m));
  var logger=(ILogger)MotionProxy.Make(typeof(ILogger),(m,v)=>{if(m.Name.Contains("Warning"))Console.WriteLine("LOG "+v[0]);return null;});
@@ -63,6 +64,7 @@ class MotionProgram {
  var loader=MotionProxy.Make(typeof(IModLoader),(m,v)=>m.Name=="GetMod"?(string)v[0]=="roughseas"?mod:null:m.ReturnType.IsInterface?Proxy(m.ReturnType):MotionProxy.Default(m));
  var api=(ICoreAPI)MotionProxy.Make(typeof(ICoreAPI),(m,v)=>m.Name=="get_ModLoader"?loader:m.Name=="get_Logger"?logger:m.Name=="get_Side"?EnumAppSide.Client:m.ReturnType.IsInterface?Proxy(m.ReturnType):MotionProxy.Default(m));
  var system=new QuietRoughSeasSystem();Set(system,"Mod",mod);system.StartPre(api);
+ MountChecks.Green(net,Check);
  foreach(var method in new[]{afloat,lift,send,tick})Check(Harmony.GetPatchInfo(method)?.Owners.Contains("quietroughseas")==true,"StartPre registers "+method.DeclaringType.Name+"."+method.Name);
  var negative=Environment.GetEnvironmentVariable("QRS_MOTION_NEGATIVE");
  if(negative!=null){var target=negative=="dt"?afloat:negative=="lift"?lift:negative=="snapshot"?tick:send;new Harmony("motion.controls").Unpatch(target,HarmonyPatchType.All,"quietroughseas");}

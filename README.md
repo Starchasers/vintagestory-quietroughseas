@@ -39,6 +39,10 @@ Inspect startup for supported version, log suppression, axe-only hull gating and
 - **All legacy Rough Seas swimming suppression hooks were removed.** No attachment/lifecycle/breath/wave hook is skipped. The 1.8.3 safety guard bypasses only a nonpositive/nonfinite swimming time step; ordinary positive finite steps remain upstream. `DisableRealisticSwimming` is no longer a config field; replace the old JSON with the supplied config. A stale JSON property is ignored by ordinary deserialization and cannot disable any hook.
 - Native `realisticSwimming=false` restores Rough Seas' ordinary swimming path only. It does **not** remove Rivers 5.0.3's separate swimmer current, Jaunt stamina, vanilla drowning, rendered waves or unrelated mods' effects. `RiversPushPlayers=false` (recommended/default) narrowly skips Rivers' player-current prefix body, explicitly returning true to its caller so vanilla liquid physics still runs. `true` retains original Rivers swimmer push. Nonplayers, boats, flow rendering and saved flowvectors are unchanged. Keep Rivers `riverSpeed=3.0` and `disableFlow=false` unchanged unless you intentionally choose otherwise. This release does not promise neutral/no-current river swimming.
 
+## Mount packet containment (development 1.8.3 replacement)
+
+The separate native `SendPlayerMountPositionPacket` boundary now rejects nonfinite mount position/motion packets before serialization. Valid mounts, including non-Rough-Seas mounts, remain unchanged. This is crash containment, **not repair or identification of the NaN producer**: no mount state is reconstructed, and server correction/reconnect may still be needed. See [native evidence, lifecycle tests and limits](research/nonfinite-mount-motion.md). No live deployment is included.
+
 ## Tests and provenance
 
 First configure external dependencies as described in [tests/README.md](tests/README.md). Then, from the project directory:

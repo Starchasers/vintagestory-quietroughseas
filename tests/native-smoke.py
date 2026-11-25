@@ -69,7 +69,7 @@ assert ready and p.returncode == 0, ('Native startup/clean exit failed', p.retur
 assert f'[quietroughseas] Successfully compiled {len(list((repo / "src").glob("*.cs")))} source files' in text
 assert 'Guarded Rough Seas rowing animation reads' in text
 assert 'Guarded Rough Seas cosmetic animation and renderer lifecycles (bounded mod-owned exception containment).' in text
-assert 'Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.' in text
+assert 'Guarded Rough Seas zero-time swimming, non-finite vessel lift, player and mount motion packets.' in text
 assert '[quietroughseas] Could not' not in text
 assert '[Server Error]' not in text
 with socket.socket() as probe:

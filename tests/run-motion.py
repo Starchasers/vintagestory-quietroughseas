@@ -44,7 +44,8 @@ with (ROOT / 'motion-results.txt').open('w') as out:
     command = [DOTNET, 'run', '--project', 'MotionHarness.csproj', '--no-build']
     controls = {'dt': 'FAIL invalid dt guard 0', 'lift': 'FAIL Lift normalization NaN',
                 'packet': 'FAIL no-snapshot invalid packet skips native NaN validator',
-                'snapshot': 'FAIL physics finite snapshot recovery'}
+                'snapshot': 'FAIL physics finite snapshot recovery',
+                'mount': 'Mount Motion is not a number'}
     for control, failure in controls.items():
         text = run(command, 1, control)
         assert failure in text, f'{control}: missing intended behavioral failure {failure}'
@@ -55,4 +56,4 @@ with (ROOT / 'motion-results.txt').open('w') as out:
     count = sum(line.startswith('PASS ') for line in text.splitlines())
     assert count == int(match[1]), (count, match[1])
     assert hashes() == before, 'Production source changed during execution'
-    record(f'AGGREGATE {count} runtime assertions passed; 4 deliberate patch-removal controls failed as intended; 0 unexpected failures; production source unchanged.')
+    record(f'AGGREGATE {count} runtime assertions passed; {len(controls)} deliberate patch-removal controls failed as intended; 0 unexpected failures; production source unchanged.')
