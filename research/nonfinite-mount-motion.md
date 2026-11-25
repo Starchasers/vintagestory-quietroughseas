@@ -37,4 +37,4 @@ No graphical Windows client, connected rider, complete boat physics loop, networ
 
 ## Packaging
 
-This scoped PR retains main's development version 1.8.3; do not treat the replacement ZIP as a separately published mod release. The installable ZIP contains the existing eight production C# files and metadata, not game/upstream binaries. No live pack/server was modified or deployed. No merge is authorized.
+This scoped PR advances the addon to 1.8.4 so the mount guard is distinguishable from the installed 1.8.3. The ZIP is a PR test build, not a merged or published release. The installable ZIP contains the existing eight production C# files and metadata, not game/upstream binaries. No live pack/server was modified or deployed. No merge is authorized.

@@ -16,12 +16,12 @@ from support import dependency, dotnet_root
 repo = Path(__file__).resolve().parent.parent
 game = dependency('VINTAGE_STORY_DIR', 'VintagestoryServer.dll')
 rough = dependency('ROUGH_SEAS_ZIP')
-addon = repo / 'dist/quietroughseas_1.8.3.zip'
+addon = repo / 'dist/quietroughseas_1.8.4.zip'
 assert addon.is_file(), 'Run python package.py first'
 root = Path(tempfile.mkdtemp(prefix='qrs-native-', dir=os.environ.get('TMPDIR')))
 (root / 'Mods').mkdir()
 shutil.copyfile(rough, root / 'Mods/roughseas_5.0.1.zip')
-shutil.copyfile(addon, root / 'Mods/quietroughseas_1.8.3.zip')
+shutil.copyfile(addon, root / 'Mods/quietroughseas_1.8.4.zip')
 with socket.socket() as probe:
     probe.bind(('127.0.0.1', 0))
     port = probe.getsockname()[1]
