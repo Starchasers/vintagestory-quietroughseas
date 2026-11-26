@@ -79,6 +79,40 @@ namespace QuietRoughSeas
             }
         }
 
+        sealed class MountWarning
+        {
+            public long EntityId;
+            public int Dimension;
+            public bool Warned;
+        }
+        static readonly ConditionalWeakTable<Entity, MountWarning> mountWarnings = new ConditionalWeakTable<Entity, MountWarning>();
+
+        // A send boundary cannot reconstruct a mount's persistent physics state.
+        // Reject only unsafe data, without restoring snapshots, clearing velocity,
+        // dismounting, or substituting player/server coordinates. Finite vanilla
+        // mounts and Rough Seas vessels retain the original serializer untouched.
+        static bool FiniteMountPacket(Entity mount)
+        {
+            if (mount == null) return true; // Preserve native null semantics.
+            var p = mount.Pos;
+            if (Finite(p.X) && Finite(p.Y) && Finite(p.Z)
+                && Finite(p.Motion.X) && Finite(p.Motion.Y) && Finite(p.Motion.Z)) return true;
+            MountWarning warning = mountWarnings.GetOrCreateValue(mount);
+            lock (warning)
+            {
+                if (warning.EntityId != mount.EntityId || warning.Dimension != p.Dimension)
+                    warning.Warned = false;
+                warning.EntityId = mount.EntityId;
+                warning.Dimension = p.Dimension;
+                if (!warning.Warned)
+                {
+                    warning.Warned = true;
+                    if (motionLogger != null) motionLogger.Warning("Rejected non-finite mount position/motion packet for entity {0} in dimension {1}; no mount state was restored or changed. This is containment, not identification of the corrupting mod; server correction or reconnect may be required.", mount.EntityId, p.Dimension);
+                }
+            }
+            return false;
+        }
+
         // Rough Seas divides SecondsIn(dt, speed) by dt before stepping its body.
         // At zero time this is 0/0; even a zero current then poisons X/Z via NaN*0.
         // Do not initialize/update its persistent swimming/wading state that tick.
@@ -130,7 +164,8 @@ namespace QuietRoughSeas
             MotionPatch(vessel.GetMethod("Lift", Declared), null, "FiniteVesselLift");
             MotionPatch(typeof(EntityBehaviorPlayerPhysics).GetMethod("OnPhysicsTick"), "RememberPlayerMotion", null, true);
             MotionPatch(network.GetMethod("SendPlayerPositionPacket", Type.EmptyTypes), "FinitePlayerPacket", null, true);
-            Mod.Logger.Notification("Guarded Rough Seas zero-time swimming, non-finite vessel lift and player motion packets.");
+            MotionPatch(network.GetMethod("SendPlayerMountPositionPacket", new[] { typeof(Entity) }), "FiniteMountPacket", null, true);
+            Mod.Logger.Notification("Guarded Rough Seas zero-time swimming, non-finite vessel lift, player and mount motion packets.");
         }
     }
 }

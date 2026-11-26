@@ -1,4 +1,4 @@
-# Kuboczoch: Quiet Rough Seas 1.8.3
+# Kuboczoch: Quiet Rough Seas 1.8.4
 
 Compatibility update of **Hubert's Quiet Rough Seas**, retaining Hubert attribution.
 For **exactly Rough Seas 5.0.1**, tested against Vintage Story API 1.22.7.0 and Harmony 2.4.2.0. The mod metadata dependency is a minimum; the runtime guard is exact and rejects legacy, future and prerelease versions without patches or power edits.
@@ -6,7 +6,7 @@ For **exactly Rough Seas 5.0.1**, tested against Vintage Story API 1.22.7.0 and 
 ## Install / existing world — not performed by this delivery
 
 1. Fully stop client/server. Back up the world, installed mod ZIPs, ModConfig and the existing values of the world settings below.
-2. Remove the old Quiet Rough Seas ZIP. Install `quietroughseas_1.8.3.zip` in Mods on both client and server with Rough Seas **5.0.1**. Do not install duplicate copies. This is a source mod: it contains C# source, not a compiled DLL.
+2. Remove the old Quiet Rough Seas ZIP. Install `quietroughseas_1.8.4.zip` in Mods on both client and server with Rough Seas **5.0.1**. Do not install duplicate copies. This is a source mod: it contains C# source, not a compiled DLL.
 3. Copy the supplied `quietroughseas.json` to **ModConfig/quietroughseas.json**, not Mods. Keep matching client/server versions and config. Restart fully.
 4. As world administrator, run in the existing world:
 
@@ -38,6 +38,10 @@ Inspect startup for supported version, log suppression, axe-only hull gating and
 - Rough Seas internal debug logs remain suppressed. Player hull Swing is allowed only with an axe; environmental/non-player damage remains upstream. Tests prove gating/resumption, not a particular damage amount.
 - **All legacy Rough Seas swimming suppression hooks were removed.** No attachment/lifecycle/breath/wave hook is skipped. The 1.8.3 safety guard bypasses only a nonpositive/nonfinite swimming time step; ordinary positive finite steps remain upstream. `DisableRealisticSwimming` is no longer a config field; replace the old JSON with the supplied config. A stale JSON property is ignored by ordinary deserialization and cannot disable any hook.
 - Native `realisticSwimming=false` restores Rough Seas' ordinary swimming path only. It does **not** remove Rivers 5.0.3's separate swimmer current, Jaunt stamina, vanilla drowning, rendered waves or unrelated mods' effects. `RiversPushPlayers=false` (recommended/default) narrowly skips Rivers' player-current prefix body, explicitly returning true to its caller so vanilla liquid physics still runs. `true` retains original Rivers swimmer push. Nonplayers, boats, flow rendering and saved flowvectors are unchanged. Keep Rivers `riverSpeed=3.0` and `disableFlow=false` unchanged unless you intentionally choose otherwise. This release does not promise neutral/no-current river swimming.
+
+## Mount packet containment (1.8.4)
+
+The separate native `SendPlayerMountPositionPacket` boundary now rejects nonfinite mount position/motion packets before serialization. Valid mounts, including non-Rough-Seas mounts, remain unchanged. This is crash containment, **not repair or identification of the NaN producer**: no mount state is reconstructed, and server correction/reconnect may still be needed. See [native evidence, lifecycle tests and limits](research/nonfinite-mount-motion.md). No live deployment is included.
 
 ## Tests and provenance
 
@@ -85,4 +89,4 @@ Native dedicated-server verification checks source compilation and official-bina
 
 ## Rollback
 
-Stop client/server. Remove 1.8.3 and restore backed-up matching mod ZIPs and ModConfig files on both ends. Restore the saved world-setting values using `/worldconfig <name> <previous-value>`, then fully restart. If rolling Rough Seas back to 4.x, use its matching older Quiet Rough Seas and saved configuration, not this exact-5.0.1 build. Restore the world backup if the upstream mod upgrade itself requires rollback; this addon makes no worldgen changes.
+Stop client/server. Remove 1.8.4 and restore backed-up matching mod ZIPs and ModConfig files on both ends. Restore the saved world-setting values using `/worldconfig <name> <previous-value>`, then fully restart. If rolling Rough Seas back to 4.x, use its matching older Quiet Rough Seas and saved configuration, not this exact-5.0.1 build. Restore the world backup if the upstream mod upgrade itself requires rollback; this addon makes no worldgen changes.
